@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import Link from "next/link";
-import { PlusCircle, Image as ImageIcon, Palette } from "lucide-react";
+import { PlusCircle, Image as ImageIcon, Palette, Package } from "lucide-react";
 
 export default async function ProductsPage() {
   const products = await prisma.product.findMany({
