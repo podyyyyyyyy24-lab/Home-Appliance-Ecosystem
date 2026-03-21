@@ -1,4 +1,4 @@
-import { LayoutDashboard, Wallet, TrendingUp, HandCoins, PackageCheck, AlertCircle, RefreshCcw } from "lucide-react";
+import { LayoutDashboard, Wallet, TrendingUp, HandCoins, PackageCheck, AlertCircle, RefreshCcw, Truck } from "lucide-react";
 import prisma from "@/lib/prisma";
 
 export default async function AdminDashboard() {

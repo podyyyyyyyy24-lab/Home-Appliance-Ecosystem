@@ -24,7 +24,6 @@ export default async function Storefront() {
         </h1>
         <div className="flex gap-4 items-center">
           <ThemeToggle />
-          <Link href="/admin" className="text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-primary transition-all bg-white/60 dark:bg-white/5 backdrop-blur-md px-6 py-3 rounded-full shadow-sm border border-border/50 hover:border-primary/50 hover:shadow-md">לוوحة الإدارة</Link>
         </div>
       </header>
 
@@ -46,9 +45,6 @@ export default async function Storefront() {
             <a href="#products" className="px-10 py-4 rounded-2xl bg-foreground text-background font-black text-lg hover:scale-105 transition-all shadow-xl shadow-black/10 flex items-center justify-center gap-3">
               تصفح التشكيلات <ArrowLeft className="w-5 h-5" />
             </a>
-            <Link href="/admin/products/new" className="px-10 py-4 rounded-2xl bg-white dark:bg-gray-900 text-foreground font-bold text-lg hover:scale-105 transition-all shadow-sm border border-border flex items-center justify-center gap-3">
-              أضف منتجك الأول 
-            </Link>
           </div>
         </section>
 
