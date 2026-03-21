@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Store, LayoutDashboard, MapPin, Package, Users } from "lucide-react";
+import { Store, LayoutDashboard, MapPin, Package, Users, Truck } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function AdminLayout({
