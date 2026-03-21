@@ -11,10 +11,11 @@ async function loginCourier(formData: FormData) {
   "use server";
   const phone = formData.get("phone") as string;
   const password = formData.get("password") as string;
+  const cookieStore = await cookies();
 
-  const courier = await prisma.courier.findUnique({ where: { phone } });
+  const courier = await prisma.courier.findFirst({ where: { phone } });
   if (courier && courier.password === password) {
-    cookies().set("courier_id", courier.id, {
+    cookieStore.set("courier_id", courier.id, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60 * 24 * 30 // 30 days session
@@ -27,14 +28,16 @@ async function loginCourier(formData: FormData) {
 
 async function logoutCourier() {
   "use server";
-  cookies().delete("courier_id");
+  const cookieStore = await cookies();
+  cookieStore.delete("courier_id");
   redirect("/delivery");
 }
 
 async function acceptOrder(formData: FormData) {
   "use server";
   const orderId = formData.get("id") as string;
-  const courierId = cookies().get("courier_id")?.value;
+  const cookieStore = await cookies();
+  const courierId = cookieStore.get("courier_id")?.value;
   if (!courierId) return;
 
   await prisma.order.update({
@@ -47,7 +50,8 @@ async function acceptOrder(formData: FormData) {
 async function markDevlivered(formData: FormData) {
   "use server";
   const id = formData.get("id") as string;
-  const courierId = cookies().get("courier_id")?.value;
+  const cookieStore = await cookies();
+  const courierId = cookieStore.get("courier_id")?.value;
   const amount = parseFloat(formData.get("amount") as string);
   if (!courierId) return;
 
@@ -67,7 +71,7 @@ async function markDevlivered(formData: FormData) {
 }
 
 export default async function DeliveryApp({ searchParams }: { searchParams: { error?: string } }) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const courierId = cookieStore.get("courier_id")?.value;
 
   // 1. LOGIN SCREEN
@@ -96,7 +100,8 @@ export default async function DeliveryApp({ searchParams }: { searchParams: { er
   // 2. AUTHENTICATED COURIER DASHBOARD
   const courier = await prisma.courier.findUnique({ where: { id: courierId } });
   if (!courier) {
-    cookies().delete("courier_id");
+    const cookieStoreToDel = await cookies();
+    cookieStoreToDel.delete("courier_id");
     redirect("/delivery");
   }
 
