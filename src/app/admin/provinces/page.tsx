@@ -16,16 +16,46 @@ async function updateFee(formData: FormData) {
   }
 }
 
+// Server action to add a new province
+async function addProvince(formData: FormData) {
+  "use server";
+  const name = formData.get("name") as string;
+  const shippingFee = parseFloat(formData.get("shippingFee") as string);
+
+  if (name && !isNaN(shippingFee)) {
+    await prisma.province.create({
+      data: { name, shippingFee },
+    });
+    revalidatePath("/admin/provinces");
+  }
+}
+
 export default async function ProvincesPage() {
   const provinces = await prisma.province.findMany({
     orderBy: { name: 'asc' }
   });
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-8">
       <div className="bg-card p-6 rounded-2xl shadow-sm border border-border">
         <h1 className="text-2xl font-bold text-foreground">شحن المحافظات</h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-2">قم بتعديل تكلفة الشحن لكل منطقة. التحديث هنا سينعكس فوراً في صفحة الدفع للعميل.</p>
+        <p className="text-gray-500 dark:text-gray-400 mt-2">قم بتعديل أو إضافة تكلفة الشحن لكل منطقة. التحديث هنا سينعكس فوراً في صفحة الدفع للعميل ويتم جمعه مع سعر المنتج.</p>
+      </div>
+
+      {/* Add New Province Form */}
+      <div className="bg-card rounded-2xl shadow-sm border border-border p-6">
+        <h2 className="text-xl font-bold mb-4 text-foreground">إضافة محافظة جديدة</h2>
+        <form action={addProvince} className="flex flex-col sm:flex-row gap-4">
+          <div className="flex-1">
+            <input type="text" name="name" required placeholder="اسم المحافظة (مثال: القاهرة)" className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm" />
+          </div>
+          <div>
+            <input type="number" name="shippingFee" required min="0" placeholder="تكلفة الشحن (ج.م)" className="w-full sm:w-48 px-4 py-3 rounded-xl border border-border bg-background text-foreground outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all text-left shadow-sm" dir="ltr" />
+          </div>
+          <button type="submit" className="px-8 py-3 bg-primary text-primary-foreground rounded-xl font-bold hover:bg-opacity-90 transition-all shadow-sm shrink-0">
+            إضافة النظام
+          </button>
+        </form>
       </div>
 
       <div className="bg-card rounded-2xl shadow-sm border border-border overflow-hidden">
@@ -53,7 +83,7 @@ export default async function ProvincesPage() {
                         min="0"
                       />
                       <button type="submit" className="px-5 py-2 bg-primary text-primary-foreground rounded-xl text-sm font-medium hover:bg-opacity-90 transition-all shadow-sm">
-                        حفظ
+                        تعديل
                       </button>
                     </form>
                   </td>
@@ -61,7 +91,10 @@ export default async function ProvincesPage() {
               ))}
               {provinces.length === 0 && (
                 <tr>
-                  <td colSpan={3} className="px-6 py-8 text-center text-gray-500">لم يتم العثور على مناطق شحن.</td>
+                  <td colSpan={3} className="px-6 py-12 text-center text-gray-500">
+                    <p className="font-bold text-lg mb-2">النظام السحابي جاهز وفعال 100% 🚀</p>
+                    <p>قم بكتابة اسم المحافظة وسعر شحنها في المربع بالأعلى لتبدأ بتأسيس المتجر للعملاء.</p>
+                  </td>
                 </tr>
               )}
             </tbody>
