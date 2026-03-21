@@ -77,15 +77,24 @@ export default async function CouriersPage() {
                     <td className="px-6 py-5 text-gray-500 dark:text-gray-400 text-left font-mono" dir="ltr">{courier.phone}</td>
                     <td className="px-6 py-5 font-bold text-red-600 dark:text-red-400 text-lg">{courier.custodyAmount.toLocaleString()}</td>
                     <td className="px-6 py-5">
-                      <form action={clearCustody}>
-                        <input type="hidden" name="id" value={courier.id} />
-                        <button 
-                         type="submit" 
-                         disabled={courier.custodyAmount === 0}
-                         className="px-4 py-2 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 hover:bg-green-100 dark:hover:bg-green-600/20 hover:text-green-700 dark:hover:text-green-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl text-sm font-semibold transition-all shadow-sm">
-                          تصفية العهدة
-                        </button>
-                      </form>
+                      <div className="flex items-center justify-end gap-2">
+                        <a 
+                          href={`/delivery?courier=${encodeURIComponent(courier.name)}`}
+                          target="_blank"
+                          className="px-4 py-2 bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/50 rounded-xl text-sm font-semibold transition-all shadow-sm whitespace-nowrap"
+                        >
+                          تطبيق المندوب
+                        </a>
+                        <form action={clearCustody}>
+                          <input type="hidden" name="id" value={courier.id} />
+                          <button 
+                          type="submit" 
+                          disabled={courier.custodyAmount === 0}
+                          className="px-4 py-2 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 hover:bg-green-100 dark:hover:bg-green-600/20 hover:text-green-700 dark:hover:text-green-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl text-sm font-semibold transition-all shadow-sm">
+                            تصفية العهدة
+                          </button>
+                        </form>
+                      </div>
                     </td>
                   </tr>
                 ))}

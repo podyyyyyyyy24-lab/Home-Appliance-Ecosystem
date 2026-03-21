@@ -13,18 +13,21 @@ async function markDevlivered(formData: FormData) {
   revalidatePath("/delivery");
 }
 
-export default async function DeliveryApp() {
+export default async function DeliveryApp({ searchParams }: { searchParams: { courier?: string } }) {
   const orders = await prisma.order.findMany({
     where: { status: "PENDING" },
     include: { province: true },
     orderBy: { createdAt: "desc" }
   });
 
+  const rawCourier = await searchParams;
+  const driverName = rawCourier.courier ? decodeURIComponent(rawCourier.courier as string) : "";
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-background pb-20">
       {/* Driver Native Header */}
       <header className="bg-primary text-white p-6 shadow-md rounded-b-[32px] mb-8 sticky top-0 z-10 w-full">
-        <h1 className="text-2xl font-black mb-1">أهلاً بك كابتن! 🚚</h1>
+        <h1 className="text-2xl font-black mb-1">أهلاً بك كابتن{driverName ? ` ${driverName}` : ''}! 🚚</h1>
         <p className="text-primary-foreground/80 font-medium">المهام الموكلة لك اليوم ({orders.length} طلبية)</p>
       </header>
 
