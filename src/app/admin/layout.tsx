@@ -41,6 +41,11 @@ export default function AdminLayout({
             <Users className="w-5 h-5 text-gray-500 dark:text-gray-400" />
             <span>المناديب والتسوية</span>
           </Link>
+
+          <Link href="/delivery" target="_blank" className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-primary/10 hover:bg-primary/20 text-primary font-bold transition-colors mt-4">
+            <Truck className="w-5 h-5" />
+            <span>نافذة المندوب (خارجي)</span>
+          </Link>
         </nav>
 
         <div className="p-4 border-t border-border">
