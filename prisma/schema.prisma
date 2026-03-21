@@ -48,7 +48,8 @@ model Province {
 model Courier {
   id            String   @id @default(cuid())
   name          String
-  phone         String
+  phone         String   @unique
+  password      String   @default("1234")
   custodyAmount Float    @default(0)
   orders        Order[]
   createdAt     DateTime @default(now())
