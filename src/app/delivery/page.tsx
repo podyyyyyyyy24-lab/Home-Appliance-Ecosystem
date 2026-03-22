@@ -174,7 +174,14 @@ export default async function DeliveryApp({ searchParams }: { searchParams: { er
                    </a>
                 </div>
 
-                <div className="border-t border-border pt-4 mt-2 grid grid-cols-1">
+                <div className="border-t border-border pt-4 mt-2 grid grid-cols-1 gap-3">
+                  <a 
+                    href={`https://wa.me/2${order.customerPhone}?text=${encodeURIComponent(`تم تسليم طلبك بنجاح أستاذ ${order.customerName}. شكراً لثقتك في إيكو ستور، ويسعدنا دائماً التعامل معك 💚.`)}`} 
+                    target="_blank" rel="noreferrer"
+                    className="flex justify-center items-center gap-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl py-3 font-bold transition-colors border border-border mt-1"
+                  >
+                    <Send className="w-4 h-4" /> إرسال رسالة شكر للعميل (بعد الاستلام)
+                  </a>
                   <form action={markDevlivered}>
                     <input type="hidden" name="id" value={order.id} />
                     <input type="hidden" name="amount" value={order.totalAmount} />
