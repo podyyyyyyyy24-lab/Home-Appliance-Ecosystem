@@ -1,12 +1,21 @@
 import Link from "next/link";
-import { Store, LayoutDashboard, MapPin, Package, Users, Truck } from "lucide-react";
+import { Store, LayoutDashboard, MapPin, Package, Users, Truck, Lock } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const cookieStore = await cookies();
+  const isAdmin = cookieStore.get("admin_auth")?.value === "true";
+
+  if (!isAdmin) {
+    redirect("/login");
+  }
+
   return (
     <div className="flex h-screen bg-background text-foreground">
       {/* Sidebar */}
@@ -48,11 +57,22 @@ export default function AdminLayout({
           </Link>
         </nav>
 
-        <div className="p-4 border-t border-border">
+        <div className="p-4 border-t border-border flex flex-col gap-2">
           <Link href="/" className="flex items-center gap-3 px-4 py-2 hover:text-primary transition-colors text-sm text-gray-500 dark:text-gray-400 font-medium">
             <Store className="w-4 h-4" />
-            <span>معاينة المتجر</span>
+            <span>معاينة المتجر للعملاء</span>
           </Link>
+          <form action={async () => {
+              "use server";
+              const cookieStoreToDel = await cookies();
+              cookieStoreToDel.delete("admin_auth");
+              redirect("/login");
+            }}>
+            <button type="submit" className="flex items-center gap-3 px-4 py-2 hover:text-red-500 transition-colors text-sm text-red-400 font-bold w-full text-right hover:bg-red-50 dark:hover:bg-red-900/10 rounded-xl">
+              <Lock className="w-4 h-4" />
+              <span>إقفال الخزنة (خروج)</span>
+            </button>
+          </form>
         </div>
       </aside>
 
