@@ -32,6 +32,26 @@ async function clearCustody(formData: FormData) {
   }
 }
 
+async function deleteCourier(formData: FormData) {
+  "use server";
+  const id = formData.get("id") as string;
+
+  if (id) {
+    // Unassign any currently grabbed orders belonging to this courier back to the open pool
+    // and then delete the courier securely.
+    await prisma.$transaction([
+      prisma.order.updateMany({
+        where: { courierId: id, status: { not: "DELIVERED" } },
+        data: { courierId: null, status: "PENDING" }
+      }),
+      prisma.courier.delete({
+        where: { id },
+      })
+    ]);
+    revalidatePath("/admin/couriers");
+  }
+}
+
 export default async function CouriersPage() {
   const couriers = await prisma.courier.findMany({
     orderBy: { createdAt: "desc" },
@@ -99,8 +119,16 @@ export default async function CouriersPage() {
                           <button 
                           type="submit" 
                           disabled={courier.custodyAmount === 0}
-                          className="px-4 py-2 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 hover:bg-green-100 dark:hover:bg-green-600/20 hover:text-green-700 dark:hover:text-green-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl text-sm font-semibold transition-all shadow-sm">
+                          className="px-4 py-2 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 hover:bg-green-100 dark:hover:bg-green-600/20 hover:text-green-700 dark:hover:text-green-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl text-sm font-semibold transition-all shadow-sm whitespace-nowrap">
                             تصفية العهدة
+                          </button>
+                        </form>
+                        <form action={deleteCourier} onSubmit={(e) => { if(!confirm('هل أنت متأكد من حذف هذا المندوب نهائياً؟')) e.preventDefault() }}>
+                          <input type="hidden" name="id" value={courier.id} />
+                          <button 
+                          type="submit" 
+                          className="px-3 py-2 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-600 dark:hover:text-white rounded-xl text-sm font-semibold transition-all shadow-sm flex items-center justify-center">
+                            حذف
                           </button>
                         </form>
                       </div>
