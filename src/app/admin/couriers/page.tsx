@@ -123,12 +123,12 @@ export default async function CouriersPage() {
                             تصفية العهدة
                           </button>
                         </form>
-                        <form action={deleteCourier} onSubmit={(e) => { if(!confirm('هل أنت متأكد من حذف هذا المندوب نهائياً؟')) e.preventDefault() }}>
+                        <form action={deleteCourier}>
                           <input type="hidden" name="id" value={courier.id} />
                           <button 
                           type="submit" 
-                          className="px-3 py-2 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-600 dark:hover:text-white rounded-xl text-sm font-semibold transition-all shadow-sm flex items-center justify-center">
-                            حذف
+                          className="px-4 py-2 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-600 dark:hover:text-white rounded-xl text-sm font-semibold transition-all shadow-sm flex items-center justify-center whitespace-nowrap">
+                            حذف المندوب
                           </button>
                         </form>
                       </div>
