@@ -142,8 +142,8 @@ export default async function DeliveryApp({ searchParams }: { searchParams: Prom
       {/* Dynamic Header */}
       <header className="bg-primary text-white p-6 shadow-md rounded-b-[32px] mb-8 sticky top-0 z-20 w-full flex justify-between items-start">
         <div>
-           <h1 className="text-2xl font-black mb-1">كابتن {courier.name.split(' ')[0]} 🚚</h1>
-           <p className="text-primary-foreground/80 font-medium">النقود المحصلة الآن: <span className="font-bold underline">{courier.custodyAmount.toLocaleString()} ج.م</span></p>
+           <h1 className="text-xl md:text-2xl font-black mb-1">كابتن {courier.name} 🚚</h1>
+           <p className="text-primary-foreground/80 font-medium text-sm md:text-base">النقود المحصلة الآن: <span className="font-bold underline">{courier.custodyAmount.toLocaleString()} ج.م</span></p>
         </div>
         <form action={logoutCourier}>
           <button type="submit" className="bg-black/20 hover:bg-black/30 px-3 py-2 rounded-xl text-sm font-bold transition-colors">خروج <LogOut className="w-4 h-4 inline-block mb-1 ml-1" /></button>
