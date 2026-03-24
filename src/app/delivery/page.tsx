@@ -79,7 +79,17 @@ async function markDevlivered(formData: FormData) {
 
 export default async function DeliveryApp({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   const cookieStore = await cookies();
-  const courierId = cookieStore.get("courier_id")?.value;
+  const rawCourierId = cookieStore.get("courier_id")?.value;
+
+  let courierId = rawCourierId;
+
+  // Validate session against database passively preventing Server Component mutation faults!
+  if (courierId) {
+     const checkCourier = await prisma.courier.findUnique({ where: { id: courierId } });
+     if (!checkCourier) {
+       courierId = undefined; // Force unauthenticated state gracefully
+     }
+  }
 
   // 1. LOGIN SCREEN
   if (!courierId) {
@@ -106,11 +116,7 @@ export default async function DeliveryApp({ searchParams }: { searchParams: Prom
 
   // 2. AUTHENTICATED COURIER DASHBOARD
   const courier = await prisma.courier.findUnique({ where: { id: courierId } });
-  if (!courier) {
-    const cookieStoreToDel = await cookies();
-    cookieStoreToDel.delete("courier_id");
-    redirect("/delivery");
-  }
+  if (!courier) return null; // Fallback safety.
 
   // Active pool of all fresh un-assigned pending orders inside ecosystem
   const poolOrders = await prisma.order.findMany({
