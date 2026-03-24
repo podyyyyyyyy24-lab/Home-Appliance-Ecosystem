@@ -97,41 +97,41 @@ export default async function CouriersPage() {
         {/* Couriers Active Table */}
         <div className="bg-card rounded-2xl shadow-sm border border-border overflow-hidden xl:col-span-2">
            <div className="overflow-x-auto">
-              <table className="w-full text-right border-collapse min-w-[700px]">
+              <table className="w-full text-right border-collapse text-sm">
                 <thead>
                   <tr className="bg-gray-50 dark:bg-gray-900 border-b border-border">
-                    <th className="px-6 py-4 text-sm font-bold text-gray-700 dark:text-gray-300">المندوب</th>
-                    <th className="px-6 py-4 text-sm font-bold text-gray-700 dark:text-gray-300">المُعرف (الهاتف)</th>
-                    <th className="px-6 py-4 text-sm font-bold text-gray-700 dark:text-gray-300">الباسوورد السري</th>
-                    <th className="px-6 py-4 text-sm font-bold text-gray-700 dark:text-gray-300">الكاش (العهدة)</th>
-                    <th className="px-6 py-4 text-sm font-bold text-gray-700 dark:text-gray-300"></th>
+                    <th className="px-4 py-4 font-bold text-gray-700 dark:text-gray-300">المندوب</th>
+                    <th className="px-4 py-4 font-bold text-gray-700 dark:text-gray-300">المُعرف (الهاتف)</th>
+                    <th className="px-4 py-4 font-bold text-gray-700 dark:text-gray-300">الباسوورد</th>
+                    <th className="px-4 py-4 font-bold text-gray-700 dark:text-gray-300">الكاش (العهدة)</th>
+                    <th className="px-4 py-4 font-bold text-gray-700 dark:text-gray-300"></th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
                   {couriers.map((courier) => (
                     <tr key={courier.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-800/10 transition-colors">
-                      <td className="px-6 py-5 font-bold text-foreground">
+                      <td className="px-4 py-4 font-bold text-foreground">
                         {courier.name}
                       </td>
-                      <td className="px-6 py-5 text-gray-500 font-medium" dir="ltr">
+                      <td className="px-4 py-4 text-gray-500 font-medium" dir="ltr">
                         {courier.phone}
                       </td>
-                      <td className="px-6 py-5 text-gray-500" dir="ltr">
+                      <td className="px-4 py-4" dir="ltr">
                         <span className="bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400 px-3 py-1 rounded-lg font-mono font-black border border-blue-200 dark:border-blue-800">
                            {courier.password}
                         </span>
                       </td>
-                      <td className="px-6 py-5">
+                      <td className="px-4 py-4">
                        <span className={`font-black ${courier.custodyAmount > 0 ? 'text-red-500' : 'text-green-500'}`}>
-                         {courier.custodyAmount.toLocaleString()} <span className="text-xs">ج.م</span>
+                         {courier.custodyAmount.toLocaleString()} <span className="text-[10px]">ج.م</span>
                        </span>
                       </td>
-                      <td className="px-6 py-5">
-                        <div className="flex items-center justify-end gap-2">
+                      <td className="px-4 py-4">
+                        <div className="flex items-center justify-end gap-1.5 flex-wrap">
                           <a 
                             href={`/delivery`}
                             target="_blank"
-                            className="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-xl text-sm font-bold transition-all shadow-sm whitespace-nowrap"
+                            className="px-3 py-1.5 bg-blue-500 text-white hover:bg-blue-600 rounded-lg text-xs font-bold transition-all shadow-sm whitespace-nowrap"
                           >
                             تطبيق المندوب
                           </a>
@@ -140,7 +140,7 @@ export default async function CouriersPage() {
                             <button 
                             type="submit" 
                             disabled={courier.custodyAmount === 0}
-                            className="px-4 py-2 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 hover:bg-green-100 dark:hover:bg-green-600/20 hover:text-green-700 dark:hover:text-green-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl text-sm font-semibold transition-all shadow-sm whitespace-nowrap">
+                            className="px-3 py-1.5 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 hover:bg-green-100 dark:hover:bg-green-600/20 hover:text-green-700 dark:hover:text-green-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-xs font-bold transition-all shadow-sm whitespace-nowrap">
                               تصفية العهدة
                             </button>
                           </form>
