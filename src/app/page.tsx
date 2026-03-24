@@ -10,39 +10,38 @@ export default async function Storefront() {
   });
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden bg-background selection:bg-primary/30">
-      {/* Dynamic Background Glow Layer */}
-      <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-primary/10 via-primary/5 to-transparent pointer-events-none -z-10" />
-      <div className="absolute top-[-10%] right-[-5%] w-[400px] h-[400px] bg-primary/20 blur-[120px] rounded-full pointer-events-none -z-10" />
+    <div className="min-h-screen flex flex-col relative overflow-hidden selection:bg-primary/30">
+      {/* Full Page Cinematic Fixed Background */}
+      <div className="fixed inset-0 bg-[url('https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center bg-no-repeat -z-20 scale-105" />
+      <div className="fixed inset-0 bg-gradient-to-br from-white/95 via-gray-50/90 to-white/95 dark:from-black/90 dark:via-black/80 dark:to-black/95 backdrop-blur-[8px] -z-10 transition-colors duration-700" />
       
       <header className="px-6 py-6 flex justify-between items-center max-w-7xl mx-auto w-full z-10">
-        <h1 className="text-3xl font-black text-foreground tracking-tight flex items-center gap-2.5 hover:scale-105 transition-transform cursor-pointer">
+        <h1 className="text-3xl font-black text-foreground tracking-tight flex items-center gap-2.5 hover:scale-105 transition-transform cursor-pointer drop-shadow-sm">
           <div className="w-11 h-11 bg-primary rounded-2xl flex items-center justify-center shadow-lg shadow-primary/30">
             <Zap className="text-white w-6 h-6 fill-current" />
           </div>
           إيكو ستور<span className="text-primary -ml-2 text-4xl">.</span>
         </h1>
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-4 items-center bg-white/50 dark:bg-black/50 backdrop-blur-md px-2 py-1.5 rounded-2xl shadow-sm border border-border/50">
           <ThemeToggle />
         </div>
       </header>
 
       <main className="flex-1 max-w-7xl mx-auto w-full px-5 mt-4 z-10">
         
-        {/* Massive Image Hero Section */}
-        <section className="relative py-24 md:py-36 flex flex-col items-center text-center rounded-[32px] md:rounded-[48px] overflow-hidden mb-16 shadow-2xl border border-white/10 mt-6">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center brightness-110" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-background dark:from-black/80 dark:via-black/70 dark:to-background backdrop-blur-[1px]" />
+        {/* Massive Glassmorphism Hero Section */}
+        <section className="relative py-24 md:py-36 flex flex-col items-center text-center rounded-[32px] md:rounded-[48px] overflow-hidden mb-16 shadow-2xl border border-white/20 dark:border-white/5 mt-6 bg-white/30 dark:bg-black/40 backdrop-blur-md">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-primary/5 pointer-events-none" />
           
           <div className="relative z-10 w-full max-w-4xl flex flex-col items-center px-5">
-            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 backdrop-blur-md text-white font-bold text-sm mb-8 border border-white/20 shadow-sm animate-pulse">
-              <Star className="w-4 h-4 fill-white" />
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/10 backdrop-blur-md text-primary font-bold text-sm mb-8 border border-primary/20 shadow-sm animate-pulse">
+              <Star className="w-4 h-4 fill-primary" />
               التجربة الأحدث في الأجهزة المنزلية
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-white tracking-tight leading-[1.15] mb-8">
-              جهّز منزلك بأحدث التقنيات <br className="hidden sm:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-l from-primary to-green-300 drop-shadow-sm">بأسعار لا تُنافس</span>
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-foreground tracking-tight leading-[1.15] mb-8 drop-shadow-sm">
+              جهّز منزلك بأحدث التقنيات <br className="hidden sm:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-l from-primary to-green-500 drop-shadow-sm">بأسعار لا تُنافس</span>
             </h2>
-            <p className="text-lg md:text-xl text-gray-300 max-w-2xl mb-12 leading-relaxed font-medium">
+            <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mb-12 leading-relaxed font-semibold">
               اطلب الآن وادفع عند الاستلام. نوفر لك شحن آمن وسريع لجميع المحافظات مع ضمان حقيقي وفحص للكرتونة قبل الدفع لضمان راحتك التامة.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
