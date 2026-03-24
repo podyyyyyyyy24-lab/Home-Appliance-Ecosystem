@@ -77,7 +77,7 @@ async function markDevlivered(formData: FormData) {
   revalidatePath("/delivery");
 }
 
-export default async function DeliveryApp({ searchParams }: { searchParams: { error?: string } }) {
+export default async function DeliveryApp({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   const cookieStore = await cookies();
   const courierId = cookieStore.get("courier_id")?.value;
 

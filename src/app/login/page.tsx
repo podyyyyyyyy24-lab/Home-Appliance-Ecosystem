@@ -21,7 +21,7 @@ async function loginAdmin(formData: FormData) {
   }
 }
 
-export default async function AdminLogin({ searchParams }: { searchParams: { error?: string } }) {
+export default async function AdminLogin({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   const rawSP = await searchParams;
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
