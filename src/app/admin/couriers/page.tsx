@@ -1,11 +1,18 @@
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
+function sanitizeInput(str: string) {
+  if (!str) return "";
+  const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  let sanitized = str.replace(/[٠-٩]/g, (d) => arabicNumbers.indexOf(d).toString());
+  return sanitized.trim();
+}
+
 async function addCourier(formData: FormData) {
   "use server";
   const name = formData.get("name") as string;
-  const phone = formData.get("phone") as string;
-  const password = formData.get("password") as string;
+  const phone = sanitizeInput(formData.get("phone") as string);
+  const password = sanitizeInput(formData.get("password") as string);
 
   if (name && phone && password) {
     try {

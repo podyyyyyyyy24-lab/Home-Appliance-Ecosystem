@@ -7,10 +7,17 @@ import { redirect } from "next/navigation";
 
 // --- SERVER ACTIONS ---
 
+function sanitizeInput(str: string) {
+  if (!str) return "";
+  const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  let sanitized = str.replace(/[٠-٩]/g, (d) => arabicNumbers.indexOf(d).toString());
+  return sanitized.trim();
+}
+
 async function loginCourier(formData: FormData) {
   "use server";
-  const phone = formData.get("phone") as string;
-  const password = formData.get("password") as string;
+  const phone = sanitizeInput(formData.get("phone") as string);
+  const password = sanitizeInput(formData.get("password") as string);
   const cookieStore = await cookies();
 
   const courier = await prisma.courier.findFirst({ where: { phone } });
