@@ -128,6 +128,13 @@ export default async function CouriersPage() {
                       </td>
                       <td className="px-6 py-5">
                         <div className="flex items-center justify-end gap-2">
+                          <a 
+                            href={`/delivery`}
+                            target="_blank"
+                            className="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-xl text-sm font-bold transition-all shadow-sm whitespace-nowrap"
+                          >
+                            تطبيق المندوب
+                          </a>
                           <form action={clearCustody}>
                             <input type="hidden" name="id" value={courier.id} />
                             <button 

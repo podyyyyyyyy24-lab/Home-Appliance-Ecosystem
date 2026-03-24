@@ -29,22 +29,27 @@ export default async function Storefront() {
 
       <main className="flex-1 max-w-7xl mx-auto w-full px-5 mt-4 z-10">
         
-        {/* Massive Hero Section */}
-        <section className="py-16 md:py-24 flex flex-col items-center text-center">
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/10 text-primary font-bold text-sm mb-8 border border-primary/20 shadow-sm animate-pulse">
-            <Star className="w-4 h-4 fill-primary" />
-            التجربة الأحدث في الأجهزة المنزلية
-          </div>
-          <h2 className="text-5xl md:text-7xl font-black text-foreground max-w-4xl tracking-tight leading-[1.15] mb-8">
-            جهّز منزلك بأحدث التقنيات <br /> <span className="text-transparent bg-clip-text bg-gradient-to-l from-primary to-green-400">بأسعار لا تُنافس</span>
-          </h2>
-          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mb-12 leading-relaxed font-medium">
-            اطلب الآن وادفع عند الاستلام. نوفر لك شحن آمن وسريع لجميع المحافظات مع ضمان حقيقي وفحص للكرتونة قبل الدفع لضمان راحتك التامة.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <a href="#products" className="px-10 py-4 rounded-2xl bg-foreground text-background font-black text-lg hover:scale-105 transition-all shadow-xl shadow-black/10 flex items-center justify-center gap-3">
-              تصفح التشكيلات <ArrowLeft className="w-5 h-5" />
-            </a>
+        {/* Massive Image Hero Section */}
+        <section className="relative py-24 md:py-36 flex flex-col items-center text-center rounded-[32px] md:rounded-[48px] overflow-hidden mb-16 shadow-2xl border border-white/10 mt-6">
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center brightness-110" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-background dark:from-black/80 dark:via-black/70 dark:to-background backdrop-blur-[1px]" />
+          
+          <div className="relative z-10 w-full max-w-4xl flex flex-col items-center px-5">
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 backdrop-blur-md text-white font-bold text-sm mb-8 border border-white/20 shadow-sm animate-pulse">
+              <Star className="w-4 h-4 fill-white" />
+              التجربة الأحدث في الأجهزة المنزلية
+            </div>
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-white tracking-tight leading-[1.15] mb-8">
+              جهّز منزلك بأحدث التقنيات <br className="hidden sm:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-l from-primary to-green-300 drop-shadow-sm">بأسعار لا تُنافس</span>
+            </h2>
+            <p className="text-lg md:text-xl text-gray-300 max-w-2xl mb-12 leading-relaxed font-medium">
+              اطلب الآن وادفع عند الاستلام. نوفر لك شحن آمن وسريع لجميع المحافظات مع ضمان حقيقي وفحص للكرتونة قبل الدفع لضمان راحتك التامة.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+              <a href="#products" className="px-10 py-5 rounded-2xl bg-primary text-primary-foreground font-black text-lg hover:scale-105 transition-all shadow-2xl shadow-primary/40 flex items-center justify-center gap-3">
+                تصفح التشكيلات والحسومات <ArrowLeft className="w-5 h-5" />
+              </a>
+            </div>
           </div>
         </section>
 
