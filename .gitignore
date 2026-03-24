@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Security credentials (NEVER PUSH)
+CREDENTIALS_SECRET_DO_NOT_SHARE.md
