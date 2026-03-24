@@ -12,8 +12,8 @@ export default async function Storefront() {
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden selection:bg-primary/30">
       {/* Full Page Cinematic Fixed Background */}
-      <div className="fixed inset-0 bg-[url('https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center bg-no-repeat -z-20 scale-105" />
-      <div className="fixed inset-0 bg-gradient-to-br from-white/95 via-gray-50/90 to-white/95 dark:from-black/90 dark:via-black/80 dark:to-black/95 backdrop-blur-[8px] -z-10 transition-colors duration-700" />
+      <div className="fixed inset-0 bg-[url('https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center bg-no-repeat -z-20 scale-105 opacity-80 dark:opacity-100" />
+      <div className="fixed inset-0 bg-gradient-to-br from-white/80 via-white/60 to-white/90 dark:from-black/90 dark:via-black/80 dark:to-black/95 backdrop-blur-[4px] dark:backdrop-blur-[8px] -z-10 transition-colors duration-700" />
       
       <header className="px-6 py-6 flex justify-between items-center max-w-7xl mx-auto w-full z-10">
         <h1 className="text-3xl font-black text-foreground tracking-tight flex items-center gap-2.5 hover:scale-105 transition-transform cursor-pointer drop-shadow-sm">
