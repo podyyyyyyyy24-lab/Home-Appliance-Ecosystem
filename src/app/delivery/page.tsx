@@ -77,11 +77,17 @@ async function markDevlivered(formData: FormData) {
   revalidatePath("/delivery");
 }
 
-export default async function DeliveryApp({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+export default async function DeliveryApp({ searchParams }: { searchParams: Promise<{ error?: string, admin_impersonate?: string }> }) {
+  const rawSP = await searchParams;
   const cookieStore = await cookies();
-  const rawCourierId = cookieStore.get("courier_id")?.value;
+  const isAdmin = cookieStore.get("admin_auth")?.value === "true";
+  
+  let courierId = cookieStore.get("courier_id")?.value;
 
-  let courierId = rawCourierId;
+  // Administrative Active Impersonation Override (Bypasses active generic cookie session!)
+  if (isAdmin && rawSP.admin_impersonate) {
+    courierId = rawSP.admin_impersonate;
+  }
 
   // Validate session against database passively preventing Server Component mutation faults!
   if (courierId) {
@@ -93,7 +99,6 @@ export default async function DeliveryApp({ searchParams }: { searchParams: Prom
 
   // 1. LOGIN SCREEN
   if (!courierId) {
-    const rawSP = await searchParams;
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-background flex items-center justify-center p-4">
         <div className="bg-card w-full max-w-md p-8 rounded-[32px] shadow-sm border border-border text-center">

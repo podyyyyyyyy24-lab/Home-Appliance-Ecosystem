@@ -129,7 +129,7 @@ export default async function CouriersPage() {
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="flex items-center justify-end gap-1.5 flex-nowrap">
                           <a 
-                            href={`/delivery`}
+                            href={`/delivery?admin_impersonate=${courier.id}`}
                             target="_blank"
                             className="px-3 py-1.5 bg-blue-500 text-white hover:bg-blue-600 rounded-lg text-xs font-bold transition-all shadow-sm whitespace-nowrap"
                           >
