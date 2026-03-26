@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ProductDisplay } from "./ProductDisplay";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { Zap } from "lucide-react";
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
