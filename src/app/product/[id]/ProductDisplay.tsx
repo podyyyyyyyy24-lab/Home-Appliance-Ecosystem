@@ -47,7 +47,7 @@ export function ProductDisplay({ product }: { product: any }) {
             <span className="text-xl font-bold text-gray-500 dark:text-gray-400 pb-1.5">ج.م</span>
           </div>
           <p className="inline-block mt-2 font-bold px-4 py-1.5 bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-400 rounded-xl text-sm border border-yellow-200 dark:border-yellow-800/50">
-            الدفع عند الاستلام (عاين منتجك قبل الدفع)
+            الدفع عند الاستلام
           </p>
         </div>
 

@@ -30,7 +30,7 @@ export default async function AdminLogin({ searchParams }: { searchParams: Promi
           <Lock className="w-10 h-10 text-primary" />
         </div>
         <h1 className="text-2xl font-black text-foreground mb-2">خزنة الإدارة المركزية</h1>
-        <p className="text-gray-500 mb-8 font-medium">لوحة التحكم السحابية لموقع إيكو ستور. هذه المنطقة محصنة بالكامل 🔒.</p>
+        <p className="text-gray-500 mb-8 font-medium">لوحة التحكم السحابية لموقع Home Kitchen Store. هذه المنطقة محصنة بالكامل 🔒.</p>
         
         <form action={loginAdmin} className="space-y-4">
           <input type="password" name="password" required placeholder="الرقم السري للإدارة" className="w-full px-5 py-4 rounded-2xl bg-gray-50 dark:bg-gray-900 border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-center tracking-[0.5em] font-bold" dir="ltr" />

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ShieldCheck, ArrowRight, Truck } from "lucide-react";
+import { ShieldCheck, Truck, MapPin, MapPinOff } from "lucide-react";
 import { saveOrder } from "./actions"; // Server action to process the order
 import { useRouter } from "next/navigation";
 
@@ -9,12 +9,37 @@ export function CheckoutForm({ product, variantId, provinces }: { product: any, 
   const router = useRouter();
   const [selectedProvinceId, setSelectedProvinceId] = useState("");
   const [loading, setLoading] = useState(false);
+  const [locationLoading, setLocationLoading] = useState(false);
+  const [address, setAddress] = useState("");
 
   const selectedProvince = provinces.find((p) => p.id === selectedProvinceId);
   const shippingFee = selectedProvince ? selectedProvince.shippingFee : 0;
   const grandTotal = product.basePrice + shippingFee;
 
   const activeVariant = product.variants.find((v: any) => v.id === variantId) || product.variants[0];
+
+  const handleGetLocation = () => {
+    if (!navigator.geolocation) {
+      alert("المتصفح الخاص بك لا يدعم ميزة تحديد الموقع الجغرافي.");
+      return;
+    }
+    
+    setLocationLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        const mapsLink = ` [تم سحب اللوكيشن: https://maps.google.com/?q=${latitude},${longitude}]`;
+        setAddress((prev) => prev + mapsLink);
+        setLocationLoading(false);
+      },
+      (error) => {
+        console.error("Error getting location", error);
+        alert("تعذر الوصول إلى موقعك، يرجى السماح بصلاحيات الموقع لتشغيل هذه الميزة.");
+        setLocationLoading(false);
+      },
+      { enableHighAccuracy: true }
+    );
+  };
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -36,18 +61,18 @@ export function CheckoutForm({ product, variantId, provinces }: { product: any, 
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-card p-6 md:p-8 rounded-[32px] border border-border shadow-sm">
+    <form onSubmit={handleSubmit} autoComplete="off" className="bg-card p-6 md:p-8 rounded-[32px] border border-border shadow-sm">
       <h2 className="text-2xl font-black text-foreground mb-6">بيانات التوصيل</h2>
       
       <div className="space-y-6">
         <div>
           <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">الاسم بالكامل</label>
-          <input type="text" name="customerName" required placeholder="مثال: محمد السيد أحمد" className="w-full px-5 py-3.5 rounded-2xl border border-border bg-background text-foreground outline-none focus:ring-1 focus:ring-primary shadow-sm" />
+          <input type="text" name="customerName" required placeholder="مثال: محمد السيد أحمد" autoComplete="off" data-lpignore="true" className="w-full px-5 py-3.5 rounded-2xl border border-border bg-background text-foreground outline-none focus:ring-1 focus:ring-primary shadow-sm" />
         </div>
         
         <div>
           <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">رقم الهاتف النشط للتواصل مع المندوب</label>
-          <input type="text" name="customerPhone" required placeholder="01xxxxxxxxx" className="w-full px-5 py-3.5 rounded-2xl border border-border bg-background text-foreground outline-none focus:ring-1 focus:ring-primary shadow-sm text-left font-mono" dir="ltr" />
+          <input type="text" name="customerPhone" required placeholder="01xxxxxxxxx" autoComplete="off" data-lpignore="true" className="w-full px-5 py-3.5 rounded-2xl border border-border bg-background text-foreground outline-none focus:ring-1 focus:ring-primary shadow-sm text-left font-mono" dir="ltr" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-2 border-b border-gray-100 dark:border-gray-800">
@@ -70,8 +95,28 @@ export function CheckoutForm({ product, variantId, provinces }: { product: any, 
             </div>
           </div>
           <div className="md:col-span-2">
-            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">العنوان التفصيلي لتسهيل الوصول</label>
-            <textarea name="customerAddress" rows={3} required placeholder="الشارع، رقم العمارة، الشقة، وأقرب علامة مميزة..." className="w-full px-5 py-3.5 rounded-2xl border border-border bg-background text-foreground outline-none focus:ring-1 focus:ring-primary shadow-sm resize-y"></textarea>
+            <div className="flex justify-between items-end mb-2">
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300">العنوان التفصيلي لتسهيل الوصول</label>
+              <button 
+                type="button" 
+                onClick={handleGetLocation}
+                disabled={locationLoading}
+                className="text-xs flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/30 dark:hover:bg-blue-800/40 text-blue-700 dark:text-blue-400 rounded-lg transition-colors font-bold disabled:opacity-50"
+              >
+                {locationLoading ? <MapPinOff className="w-4 h-4 animate-pulse" /> : <MapPin className="w-4 h-4" />}
+                {locationLoading ? "جاري التحديد..." : "سحب اللوكيشن 📍"}
+              </button>
+            </div>
+            <textarea 
+              name="customerAddress" 
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              rows={3} 
+              autoComplete="off" data-lpignore="true"
+              required 
+              placeholder="الشارع، رقم العمارة، وأقرب علامة مميزة... (إذا حددت اللوكيشن عبر الزر أعلاه سيتم إرفاق الرابط هنا تلقائياً لسرعة التوصيل)" 
+              className="w-full px-5 py-3.5 rounded-2xl border border-border bg-background text-foreground outline-none focus:ring-1 focus:ring-primary shadow-sm resize-y"
+            ></textarea>
           </div>
         </div>
 

@@ -47,6 +47,11 @@ export default async function AdminLayout({
             <span>المنتجات والمخزون</span>
           </Link>
 
+          <Link href="/admin/orders" className="flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium transition-colors">
+            <Store className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+            <span>الطلبيات</span>
+          </Link>
+
           <Link href="/admin/provinces" className="flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium transition-colors">
             <MapPin className="w-5 h-5 text-gray-500 dark:text-gray-400" />
             <span>جدول الشحن</span>

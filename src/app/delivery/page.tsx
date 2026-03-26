@@ -194,7 +194,7 @@ export default async function DeliveryApp({ searchParams }: { searchParams: Prom
 
                 <div className="border-t border-border pt-4 mt-2 grid grid-cols-1 gap-3">
                   <a 
-                    href={`https://wa.me/2${order.customerPhone}?text=${encodeURIComponent(`تم تسليم طلبك بنجاح أستاذ ${order.customerName}. شكراً لثقتك في إيكو ستور، ويسعدنا دائماً التعامل معك 💚.`)}`} 
+                    href={`https://wa.me/2${order.customerPhone}?text=${encodeURIComponent(`تم تسليم طلبك بنجاح أستاذ ${order.customerName}. شكراً لثقتك في Home Kitchen Store، ويسعدنا دائماً التعامل معك 💚.`)}`} 
                     target="_blank" rel="noreferrer"
                     className="flex justify-center items-center gap-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl py-3 font-bold transition-colors border border-border mt-1"
                   >

@@ -19,8 +19,11 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
   return (
     <div className="min-h-screen flex flex-col pt-4">
       <header className="px-6 py-5 flex justify-between items-center max-w-7xl mx-auto w-full mb-8">
-        <Link href="/">
-          <h1 className="text-3xl font-black text-primary tracking-tight">إيكو ستور<span className="text-yellow-500">.</span></h1>
+        <Link href="/" className="flex items-center gap-2 hover:scale-105 transition-transform">
+          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(var(--primary),0.5)]">
+            <Zap className="text-white w-5 h-5 fill-current" />
+          </div>
+          <h1 className="text-3xl font-black text-primary tracking-tight">Home Kitchen Store<span className="text-yellow-500">.</span></h1>
         </Link>
         <div className="flex gap-4 items-center">
           <ThemeToggle />
