@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { Store, LayoutDashboard, MapPin, Package, Users, Truck, Lock } from "lucide-react";
+import { Store, LayoutDashboard, MapPin, Package, Users, Truck, Lock, UserRound } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import prisma from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -15,6 +16,11 @@ export default async function AdminLayout({
   if (!isAdmin) {
     redirect("/login");
   }
+
+  // Fetch all couriers for the sidebar impersonation list
+  const couriers = await prisma.courier.findMany({
+    orderBy: { name: "asc" }
+  });
 
   return (
     <div className="flex h-screen bg-background text-foreground">
@@ -51,10 +57,30 @@ export default async function AdminLayout({
             <span>المناديب والتسوية</span>
           </Link>
 
-          <Link href="/delivery" target="_blank" className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-primary/10 hover:bg-primary/20 text-primary font-bold transition-colors mt-4">
-            <Truck className="w-5 h-5" />
-            <span>نافذة المندوب (خارجي)</span>
-          </Link>
+          <div className="mt-4 border-t border-border pt-4">
+            <div className="flex items-center gap-3 px-4 py-3 text-primary font-black uppercase text-xs tracking-widest bg-primary/5 rounded-t-2xl border-b border-primary/10">
+              <Users className="w-4 h-4" />
+              <span>نوافذ متابعة المناديب</span>
+            </div>
+            
+            <div className="space-y-1 mt-2">
+              {couriers.map((courier) => (
+                <Link 
+                  key={`courier-imp-${courier.id}`} 
+                  href={`/delivery?admin_impersonate=${courier.id}`} 
+                  target="_blank"
+                  className="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-white dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-primary transition-all text-sm font-bold border border-transparent hover:border-primary/20 shadow-sm hover:shadow-md"
+                >
+                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                  <span>{courier.name}</span>
+                  <Truck className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity mr-auto text-primary" />
+                </Link>
+              ))}
+              {couriers.length === 0 && (
+                <p className="px-4 py-2 text-xs text-gray-500 italic">لا يوجد مناديب مسجلين بعد.</p>
+              )}
+            </div>
+          </div>
         </nav>
 
         <div className="p-4 border-t border-border flex flex-col gap-2">

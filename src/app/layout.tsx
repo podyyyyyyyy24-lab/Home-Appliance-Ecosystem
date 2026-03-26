@@ -8,8 +8,39 @@ const cairo = Cairo({
 });
 
 export const metadata: Metadata = {
-  title: "متجر الأجهزة المنزلية",
-  description: "تسوق الأجهزة المنزلية بضمان ودفع عند الاستلام",
+  title: {
+    default: "Home Kitchen Store",
+    template: "%s | Home Kitchen Store",
+  },
+  description: "تسوق أفضل الأجهزة المنزلية بضمان حقيقي ودفع عند الاستلام. جودة تثق بها وخدمة ما بعد البيع.",
+  keywords: ["أجهزة منزلية", "ثلاجات", "غسالات", "بوتاجازات", "إيكو ستور", "مصر"],
+  authors: [{ name: "Home Kitchen Store" }],
+  openGraph: {
+    type: "website",
+    locale: "ar_EG",
+    url: "https://home-appliance-ecosystem.vercel.app/",
+    title: "Home Kitchen Store",
+    description: "تسوق أفضل الأجهزة المنزلية بضمان حقيقي ودفع عند الاستلام. جودة تثق بها وخدمة ما بعد البيع.",
+    siteName: "Home Kitchen Store",
+    images: [
+      {
+        url: "/og-image.png", // This will be the file they choose
+        width: 1200,
+        height: 630,
+        alt: "Home Kitchen Store للأجهزة المنزلية",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Home Kitchen Store",
+    description: "تسوق أفضل الأجهزة المنزلية بضمان حقيقي ودفع عند الاستلام",
+    images: ["/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

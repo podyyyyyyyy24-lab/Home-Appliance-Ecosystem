@@ -20,7 +20,7 @@ export default async function Storefront() {
           <div className="w-11 h-11 bg-primary rounded-2xl flex items-center justify-center shadow-lg shadow-primary/30">
             <Zap className="text-white w-6 h-6 fill-current" />
           </div>
-          إيكو ستور<span className="text-primary -ml-2 text-4xl">.</span>
+          Home Kitchen Store<span className="text-primary -ml-2 text-4xl">.</span>
         </h1>
         <div className="flex gap-4 items-center bg-white/50 dark:bg-black/50 backdrop-blur-md px-2 py-1.5 rounded-2xl shadow-sm border border-border/50">
           <ThemeToggle />
@@ -42,7 +42,7 @@ export default async function Storefront() {
               جهّز منزلك بأحدث التقنيات <br className="hidden sm:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-l from-primary to-green-500 drop-shadow-sm">بأسعار لا تُنافس</span>
             </h2>
             <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mb-12 leading-relaxed font-semibold">
-              اطلب الآن وادفع عند الاستلام. نوفر لك شحن آمن وسريع لجميع المحافظات مع ضمان حقيقي وفحص للكرتونة قبل الدفع لضمان راحتك التامة.
+              اطلب الآن وادفع عند الاستلام. نوفر لك شحن آمن وسريع لجميع المحافظات.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
               <a href="#products" className="px-10 py-5 rounded-2xl bg-primary text-primary-foreground font-black text-lg hover:scale-105 transition-all shadow-2xl shadow-primary/40 flex items-center justify-center gap-3">
@@ -60,7 +60,7 @@ export default async function Storefront() {
               <h2 className="text-2xl md:text-3xl font-black text-foreground mb-3 flex items-center gap-3">
                  الدفع عند الاستلام 100% 💵
               </h2>
-              <p className="text-gray-600 dark:text-gray-400 font-medium text-lg max-w-xl">عاين منتجك قبل الدفع، ولا تدفع أي قروش إلا بعد التأكد من سلامة المنتج ومطابقته التامة للصور. ثقتك هي رأس مالنا.</p>
+              <p className="text-gray-600 dark:text-gray-400 font-medium text-lg max-w-xl">ثقتك هي رأس مالنا.</p>
             </div>
             <div className="flex flex-wrap gap-4 justify-center">
               <div className="flex items-center gap-3 bg-green-50 dark:bg-green-900/20 px-6 py-4 rounded-2xl border border-green-100 dark:border-green-800/30 shadow-sm">
