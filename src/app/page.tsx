@@ -134,14 +134,8 @@ export default async function Storefront() {
           ))}
           
           {products.length === 0 && (
-            <div className="col-span-full py-24 text-center bg-white/50 dark:bg-gray-900/20 backdrop-blur-sm border-2 border-dashed border-gray-300 dark:border-gray-800 rounded-[40px]">
-              <div className="relative w-32 h-32 mx-auto mb-6">
-                 <div className="absolute inset-0 bg-primary blur-2xl opacity-20 rounded-full animate-pulse-slow"></div>
-                 <ShoppingBag className="w-full h-full text-gray-200 dark:text-gray-800 drop-shadow-2xl relative z-10" />
-              </div>
-              <h3 className="text-3xl font-black text-foreground mb-3">المتجر مبهر ويعمل بسلاسة</h3>
-              <p className="text-gray-500 font-medium text-xl max-w-xl mx-auto leading-relaxed">المكان يبدو خاوياً فقط لأنه لم يتم إدراج منتجاتك بعد. ادخل للوحة الإدارة وسجل منتجك الأول بصوره الملونة لترى قوة واجهتك كأنها معارض أبل!</p>
-              <Link href="/admin/products/new" className="inline-block mt-8 px-10 py-5 bg-primary text-primary-foreground rounded-2xl font-bold text-lg shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all">ارفع أول منتج الآن</Link>
+            <div className="col-span-full py-24 text-center">
+              {/* This space is intentionally left blank or for future products */}
             </div>
           )}
         </div>
