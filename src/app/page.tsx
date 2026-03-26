@@ -3,6 +3,8 @@ import Link from "next/link";
 import { ShieldCheck, Truck, ShoppingBag, Eye, Zap, Star, ArrowLeft } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Storefront() {
   const products = await prisma.product.findMany({
     include: { variants: true },

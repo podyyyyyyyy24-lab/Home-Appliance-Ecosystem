@@ -31,3 +31,19 @@ export async function saveProduct(formData: FormData) {
     }
   });
 }
+
+export async function deleteProduct(id: string) {
+  // Check if product exists
+  const product = await prisma.product.findUnique({ where: { id } });
+  if (!product) throw new Error("Product not found");
+
+  // Since variants are cascade deleted conceptually, or we can just delete the product
+  // Make sure cascade is set in schema. Wait, if it's not we can just delete variants first.
+  await prisma.productVariant.deleteMany({
+    where: { productId: id }
+  });
+
+  await prisma.product.delete({
+    where: { id }
+  });
+}

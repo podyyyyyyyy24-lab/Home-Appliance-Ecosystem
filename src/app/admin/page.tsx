@@ -23,6 +23,20 @@ export default async function AdminDashboard() {
     _sum: { custodyAmount: true }
   });
 
+  // 4. Inventory Value
+  const products = await prisma.product.findMany({
+    include: { variants: true }
+  });
+  
+  let inventoryValue = 0;
+  let totalStockPieces = 0;
+  products.forEach(p => {
+    p.variants.forEach(v => {
+      inventoryValue += (p.basePrice * v.stock);
+      totalStockPieces += v.stock;
+    });
+  });
+
   const totalSales = deliveredOrders._sum.totalAmount || 0;
   const pendingSales = pendingOrders._sum.totalAmount || 0;
   const custodyCash = couriersCustody._sum.custodyAmount || 0;
@@ -103,6 +117,24 @@ export default async function AdminDashboard() {
           <Truck className="w-16 h-16 text-gray-200 dark:text-gray-700" />
         </div>
 
+      </div>
+
+      <div className="border-t border-border/80 my-8"></div>
+
+      <h2 className="text-2xl font-bold px-2 text-foreground flex items-center gap-3"><PackageCheck className="text-purple-500 w-6 h-6" /> تقييم المخزن الحالي 📦</h2>
+      <div className="bg-purple-50 dark:bg-purple-900/10 border border-purple-200 dark:border-purple-800/30 rounded-[32px] p-8 shadow-sm flex items-center justify-between w-full">
+          <div>
+            <h3 className="text-gray-600 dark:text-gray-400 font-bold text-lg mb-2">إجمالي قيمة البضائع المتوفرة بالمخزن</h3>
+            <div className="flex items-end gap-3 mt-4">
+              <p className="text-5xl font-black text-purple-700 dark:text-purple-400">{inventoryValue.toLocaleString()} <span className="text-xl font-bold text-purple-400 dark:text-purple-600">ج.م</span></p>
+            </div>
+            <p className="text-sm text-purple-600 dark:text-purple-300 font-medium mt-4 bg-purple-100 dark:bg-purple-900/30 px-3 py-1.5 rounded-lg inline-block">
+              إجمالي القطع المتاحة حالياً: <strong className="font-black text-lg">{totalStockPieces}</strong> قطعة
+            </p>
+          </div>
+          <div className="w-24 h-24 bg-purple-200/50 dark:bg-purple-800/40 rounded-full flex items-center justify-center shrink-0">
+            <PackageCheck className="w-12 h-12 text-purple-600 dark:text-purple-400" />
+          </div>
       </div>
 
     </div>

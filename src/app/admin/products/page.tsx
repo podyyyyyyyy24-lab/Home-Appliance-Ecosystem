@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { PlusCircle, Image as ImageIcon, Palette, Package } from "lucide-react";
+import { DeleteProductButton } from "./DeleteProductButton";
 
 export default async function ProductsPage() {
   const products = await prisma.product.findMany({
@@ -61,10 +62,11 @@ export default async function ProductsPage() {
                 </div>
               </div>
               
-              <div className="mt-6">
-                <Link href={`/admin/products/${product.id}`} className="block w-full text-center px-4 py-2.5 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 text-foreground font-medium rounded-xl transition-colors border border-border shadow-sm">
+              <div className="mt-6 flex gap-2">
+                <Link href={`/admin/products/${product.id}`} className="flex-1 text-center px-4 py-2.5 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 text-foreground font-medium rounded-xl transition-colors border border-border shadow-sm">
                   تعديل المنتــج
                 </Link>
+                <DeleteProductButton productId={product.id} />
               </div>
             </div>
           </div>
