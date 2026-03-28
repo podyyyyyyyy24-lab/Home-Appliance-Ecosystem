@@ -165,6 +165,7 @@ export default async function DeliveryApp({ searchParams }: { searchParams: Prom
                    <div className="pr-2">
                       <h2 className="text-xl font-bold text-foreground mb-1">{order.customerName}</h2>
                       <p className="text-sm font-semibold text-gray-500 flex items-center gap-1"><MapIcon className="w-4 h-4"/> {order.province?.name}</p>
+                      <p className="text-sm font-bold mt-1 tracking-widest text-primary font-mono select-all" dir="ltr">{order.customerPhone}</p>
                    </div>
                    <div className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-2 rounded-xl text-lg font-black text-center shadow-sm border border-green-200 dark:border-green-800/40 shrink-0">
                       {order.totalAmount.toLocaleString()} <span className="text-xs">ج.م</span>
@@ -184,7 +185,7 @@ export default async function DeliveryApp({ searchParams }: { searchParams: Prom
                    </a>
                    
                    <a 
-                     href={`https://wa.me/2${order.customerPhone}?text=${encodeURIComponent(`أهلاً بك أستاذ ${order.customerName}، أنا المندوب وطلبك معايا دلوقتي في الطريق للعنوان. الإجمالي المطلوب تحصيله: ${order.totalAmount} جنيه.`)}`} 
+                     href={`https://api.whatsapp.com/send/?phone=2${order.customerPhone}&text=${encodeURIComponent(`أهلاً بك أستاذ/ة ${order.customerName}، أنا مندوب الشحن وطلبك معايا دلوقتي في الطريق للعنوان. الإجمالي المطلوب تحصيله: ${order.totalAmount.toLocaleString()} جنيه.`)}`} 
                      target="_blank" rel="noreferrer"
                      className="flex justify-center items-center gap-2 bg-green-500 text-white rounded-xl py-3.5 font-bold shadow-sm hover:bg-green-600 transition-colors"
                    >
@@ -194,7 +195,7 @@ export default async function DeliveryApp({ searchParams }: { searchParams: Prom
 
                 <div className="border-t border-border pt-4 mt-2 grid grid-cols-1 gap-3">
                   <a 
-                    href={`https://wa.me/2${order.customerPhone}?text=${encodeURIComponent(`تم تسليم طلبك بنجاح أستاذ ${order.customerName}. شكراً لثقتك في Home Kitchen Store، ويسعدنا دائماً التعامل معك 💚.`)}`} 
+                    href={`https://api.whatsapp.com/send/?phone=2${order.customerPhone}&text=${encodeURIComponent(`تم تسليم طلبك بنجاح أستاذ/ة ${order.customerName}. شكراً لثقتك في Home Kitchen Store، ويسعدنا دائماً التعامل معك 💚.`)}`} 
                     target="_blank" rel="noreferrer"
                     className="flex justify-center items-center gap-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl py-3 font-bold transition-colors border border-border mt-1"
                   >
