@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import DeleteButton from "./DeleteButton"; // Imported newly decoupled interactive component
+import { CopyCourierLinkButton } from "./CopyCourierLinkButton";
 
 function sanitizeInput(str: string) {
   if (!str) return "";
@@ -145,6 +146,7 @@ export default async function CouriersPage() {
                             </button>
                           </form>
                           <DeleteButton id={courier.id} deleteActionFn={deleteCourier} />
+                          <CopyCourierLinkButton phone={courier.phone} password={courier.password} name={courier.name} />
                         </div>
                       </td>
                     </tr>
