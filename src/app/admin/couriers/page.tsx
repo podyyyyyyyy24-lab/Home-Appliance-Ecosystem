@@ -127,8 +127,8 @@ export default async function CouriersPage() {
                          {courier.custodyAmount.toLocaleString()} <span className="text-[10px]">ج.م</span>
                        </span>
                       </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="flex items-center justify-end gap-1.5 flex-nowrap">
+                      <td className="px-4 py-4">
+                        <div className="flex flex-wrap items-center justify-end gap-2">
                           <a 
                             href={`/delivery?admin_impersonate=${courier.id}`}
                             target="_blank"
