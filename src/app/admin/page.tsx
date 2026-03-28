@@ -11,9 +11,11 @@ export default async function AdminDashboard() {
     _count: { id: true }
   });
   
-  // 2. Pending Orders Value (In Transit)
+  // 2. Pending Orders Value (In Transit & Pending)
   const pendingOrders = await prisma.order.aggregate({
-    where: { status: 'PENDING' },
+    where: { 
+      status: { in: ['PENDING', 'OUT_FOR_DELIVERY'] }
+    },
     _sum: { totalAmount: true },
     _count: { id: true }
   });

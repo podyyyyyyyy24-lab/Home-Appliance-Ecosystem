@@ -8,6 +8,7 @@ export async function saveOrder(formData: FormData) {
   const provinceId = formData.get("provinceId") as string;
   const customerAddress = formData.get("customerAddress") as string;
   const totalAmount = parseFloat(formData.get("totalAmount") as string);
+  const variantId = formData.get("variantId") as string;
   
   if (customerName && customerPhone && provinceId && totalAmount) {
     await prisma.order.create({
@@ -20,5 +21,17 @@ export async function saveOrder(formData: FormData) {
         status: "PENDING",
       }
     });
+
+    // الخصم التلقائي لعدد 1 من المخزون الحالي للمنتج المباع
+    if (variantId) {
+      try {
+        await prisma.productVariant.update({
+          where: { id: variantId },
+          data: { stock: { decrement: 1 } }
+        });
+      } catch (e) {
+        console.error("Failed to decrement stock on new order", e);
+      }
+    }
   }
 }

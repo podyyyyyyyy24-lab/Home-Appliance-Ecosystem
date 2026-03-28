@@ -49,7 +49,10 @@ export function CheckoutForm({ product, variantId, provinces }: { product: any, 
     try {
       const formData = new FormData(e.currentTarget);
       formData.append("totalAmount", grandTotal.toString());
-      if (activeVariant) formData.append("variantName", activeVariant.colorName); // save for records
+      if (activeVariant) {
+        formData.append("variantName", activeVariant.colorName); // save for records
+        formData.append("variantId", activeVariant.id);
+      }
 
       await saveOrder(formData);
       router.push("/thank-you"); // redirecting to success page
