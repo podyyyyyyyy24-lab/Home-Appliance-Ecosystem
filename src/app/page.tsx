@@ -1,146 +1,95 @@
-import prisma from "@/lib/prisma";
-import Link from "next/link";
-import { ShieldCheck, Truck, ShoppingBag, Eye, Zap, Star, ArrowLeft } from "lucide-react";
+import { Star, ArrowLeft, Sparkles } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
-export const dynamic = 'force-dynamic';
+export default function Storefront() {
 
-export default async function Storefront() {
-  const products = await prisma.product.findMany({
-    include: { variants: true },
-    orderBy: { createdAt: "desc" }
-  });
+  const categories = [
+    { id: "perfumes", nameAr: "برفانات", nameEn: "Perfumes", active: true, image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=600&auto=format&fit=crop" },
+    { id: "accessories", nameAr: "اكسسوار", nameEn: "Accessories", active: true, image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop" },
+    { id: "makeup", nameAr: "ميكايب", nameEn: "Makeup", active: false, image: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=600&auto=format&fit=crop" },
+    { id: "skincare", nameAr: "عناية بلبشرة", nameEn: "Skin Care", active: false, image: "https://images.unsplash.com/photo-1570194065650-d99fb4ee5665?q=80&w=600&auto=format&fit=crop" },
+    { id: "home-appliances", nameAr: "اجهزة منزلية", nameEn: "Home Appliances", active: false, image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?q=80&w=600&auto=format&fit=crop" },
+    { id: "housewares", nameAr: "ادوات منزلية", nameEn: "Housewares", active: false, image: "https://images.unsplash.com/photo-1556909114-44e3e70034e2?q=80&w=600&auto=format&fit=crop" },
+  ];
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden selection:bg-primary/30">
-      {/* Full Page Cinematic Fixed Background */}
-      <div className="fixed inset-0 bg-[url('https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center bg-no-repeat -z-20 scale-105 opacity-80 dark:opacity-100" />
-      <div className="fixed inset-0 bg-gradient-to-br from-white/80 via-white/60 to-white/90 dark:from-black/90 dark:via-black/80 dark:to-black/95 backdrop-blur-[4px] dark:backdrop-blur-[8px] -z-10 transition-colors duration-700" />
+      <div className="fixed inset-0 bg-gradient-to-br from-gray-50 via-gray-100 to-white dark:from-gray-900 dark:via-black dark:to-gray-950 -z-20 transition-colors duration-700" />
       
       <header className="px-6 py-6 flex justify-between items-center max-w-7xl mx-auto w-full z-10">
         <h1 className="text-3xl font-black text-foreground tracking-tight flex items-center gap-2.5 hover:scale-105 transition-transform cursor-pointer drop-shadow-sm">
           <div className="w-11 h-11 bg-primary rounded-2xl flex items-center justify-center shadow-lg shadow-primary/30">
-            <Zap className="text-white w-6 h-6 fill-current" />
+            <Sparkles className="text-white w-6 h-6" />
           </div>
-          Home Kitchen Store<span className="text-primary -ml-2 text-4xl">.</span>
+          M Donna Store<span className="text-primary -ml-2 text-4xl">.</span>
         </h1>
         <div className="flex gap-4 items-center bg-white/50 dark:bg-black/50 backdrop-blur-md px-2 py-1.5 rounded-2xl shadow-sm border border-border/50">
           <ThemeToggle />
         </div>
       </header>
 
-      <main className="flex-1 max-w-7xl mx-auto w-full px-5 mt-4 z-10">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-5 mt-4 z-10 pb-32">
         
-        {/* Massive Glassmorphism Hero Section */}
-        <section className="relative py-24 md:py-36 flex flex-col items-center text-center rounded-[32px] md:rounded-[48px] overflow-hidden mb-16 shadow-2xl border border-white/20 dark:border-white/5 mt-6 bg-white/30 dark:bg-black/40 backdrop-blur-md">
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-primary/5 pointer-events-none" />
+        {/* Modern Hero Section */}
+        <section className="relative py-20 md:py-28 flex flex-col items-center text-center rounded-[32px] md:rounded-[48px] overflow-hidden mb-16 shadow-xl border border-white/40 dark:border-white/5 mt-6 bg-gradient-to-br from-pink-50/50 to-purple-50/50 dark:from-purple-900/10 dark:to-pink-900/10 backdrop-blur-md">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-primary/5 pointer-events-none" />
           
           <div className="relative z-10 w-full max-w-4xl flex flex-col items-center px-5">
-            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/10 backdrop-blur-md text-primary font-bold text-sm mb-8 border border-primary/20 shadow-sm animate-pulse">
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/80 dark:bg-black/80 backdrop-blur-md text-primary font-bold text-sm mb-8 border border-primary/20 shadow-sm">
               <Star className="w-4 h-4 fill-primary" />
-              التجربة الأحدث في الأجهزة المنزلية
+              تألقي بأرقى العطور والإكسسوارات
             </div>
             <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-foreground tracking-tight leading-[1.15] mb-8 drop-shadow-sm">
-              جهّز منزلك بأحدث التقنيات <br className="hidden sm:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-l from-primary to-green-500 drop-shadow-sm">بأسعار لا تُنافس</span>
+              مرحباً بكِ في <br className="hidden sm:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-l from-primary to-pink-500 drop-shadow-sm">M Donna Store</span>
             </h2>
             <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mb-12 leading-relaxed font-semibold">
-              اطلب الآن وادفع عند الاستلام. نوفر لك شحن آمن وسريع لجميع المحافظات.
+              اكتشفي تشكيلتنا الحصرية من العطور الفاخرة والإكسسوارات. تسوقي الآن وادفعي عند الاستلام!
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-              <a href="#products" className="px-10 py-5 rounded-2xl bg-primary text-primary-foreground font-black text-lg hover:scale-105 transition-all shadow-2xl shadow-primary/40 flex items-center justify-center gap-3">
-                تصفح التشكيلات والحسومات <ArrowLeft className="w-5 h-5" />
-              </a>
-            </div>
           </div>
         </section>
 
-        {/* Floating Trust Banner */}
-        <div className="relative -mt-8 mb-24">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary to-green-500 rounded-[32px] blur-xl opacity-20 dark:opacity-30"></div>
-          <div className="relative bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/20 dark:border-gray-800/50 rounded-[32px] p-8 md:p-10 flex flex-col md:flex-row justify-between items-center gap-8 shadow-2xl">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-black text-foreground mb-3 flex items-center gap-3">
-                 الدفع عند الاستلام 100% 💵
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 font-medium text-lg max-w-xl">ثقتك هي رأس مالنا.</p>
-            </div>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <div className="flex items-center gap-3 bg-green-50 dark:bg-green-900/20 px-6 py-4 rounded-2xl border border-green-100 dark:border-green-800/30 shadow-sm">
-                <ShieldCheck className="text-green-600 dark:text-green-400 w-7 h-7" />
-                <span className="font-bold text-green-800 dark:text-green-300 text-lg">ضمان حقيقي</span>
-              </div>
-              <div className="flex items-center gap-3 bg-blue-50 dark:bg-blue-900/20 px-6 py-4 rounded-2xl border border-blue-100 dark:border-blue-800/30 shadow-sm">
-                <Truck className="text-blue-600 dark:text-blue-400 w-7 h-7" />
-                <span className="font-bold text-blue-800 dark:text-blue-300 text-lg">تغطية المحافظات</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="products" className="mb-10 flex justify-between items-end px-2 pt-10">
-          <h2 className="text-3xl font-black text-foreground">أحدث العروض <span className="text-primary relative inline-block">
-            والأجهزة
+        {/* Categories Grid */}
+        <div className="mb-8 flex justify-between items-end px-2">
+          <h2 className="text-3xl font-black text-foreground">الأقسام <span className="text-primary relative inline-block">
+            Categories
             <svg className="absolute w-full h-3 -bottom-1 left-0 text-primary/30" viewBox="0 0 100 20" preserveAspectRatio="none"><path d="M0,10 Q50,20 100,10" fill="none" stroke="currentColor" strokeWidth="4"/></svg>
             </span>
           </h2>
         </div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 pb-32">
-          {products.map((product) => (
-            <Link key={product.id} href={`/product/${product.id}`} className="group bg-white dark:bg-card rounded-[28px] border border-border/50 shadow-sm hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 outline-none transition-all duration-300 flex flex-col overflow-hidden">
-              <div className="h-64 relative bg-gray-50 dark:bg-gray-800/40 overflow-hidden flex items-center justify-center p-6 mix-blend-multiply dark:mix-blend-normal">
-                {product.image ? (
-                  <img src={product.image} alt={product.title} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out drop-shadow-xl" />
-                ) : (
-                  <ShoppingBag className="w-20 h-20 text-gray-200 dark:text-gray-700 drop-shadow-md" />
-                )}
-                
-                {/* Overlay gradient for premium feel on hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                {/* Variant Color Dots Preview */}
-                {product.variants.length > 0 && (
-                  <div className="absolute top-4 left-4 flex gap-1.5 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md px-3 py-2 rounded-full shadow-sm border border-border/50 z-10">
-                    {product.variants.slice(0, 3).map((v) => (
-                      <div key={v.id} className="w-4 h-4 rounded-full border-2 border-white dark:border-gray-800 shadow-sm" style={{ backgroundColor: v.colorHex }} title={v.colorName} />
-                    ))}
-                    {product.variants.length > 3 && (
-                      <span className="text-[11px] font-black text-foreground pl-1">+{product.variants.length - 3}</span>
-                    )}
-                  </div>
-                )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+          {categories.map((category) => (
+            <div key={category.id} className={`relative group rounded-[28px] overflow-hidden border ${category.active ? 'border-primary/20 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20 cursor-pointer hover:-translate-y-1' : 'border-border/50 opacity-80'} transition-all duration-300 bg-white dark:bg-card aspect-[4/3] flex flex-col`}>
+              <div className="absolute inset-0 z-0">
+                <img src={category.image} alt={category.nameEn} className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
               </div>
               
-              <div className="p-6 flex flex-col flex-1 justify-between bg-white dark:bg-card z-10 border-t border-border/50">
-                <div>
-                  <h3 className="font-bold text-xl text-foreground line-clamp-2 leading-snug group-hover:text-primary transition-colors">{product.title}</h3>
-                  <div className="mt-4 flex items-end gap-1.5">
-                    <span className="text-3xl font-black text-foreground tracking-tight">{product.basePrice.toLocaleString()}</span>
-                    <span className="text-base font-bold text-gray-500 pb-1">ج.م</span>
+              <div className="relative z-10 flex flex-col justify-end h-full p-6 text-white">
+                <div className="flex justify-between items-end">
+                  <div>
+                    <h3 className="text-3xl font-black mb-1 tracking-tight">{category.nameEn}</h3>
+                    <p className="text-xl font-bold text-gray-300">{category.nameAr}</p>
                   </div>
-                </div>
-                
-                <div className="mt-6 pt-5 border-t border-dashed border-gray-200 dark:border-gray-800 flex justify-between items-center">
-                  {product.warranty_period ? (
-                    <span className="text-xs font-bold text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800/40 px-3 py-1.5 rounded-xl">ضمان {product.warranty_period}</span>
-                  ) : (
-                    <span></span> 
+                  {!category.active && (
+                    <div className="bg-black/50 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20">
+                      <span className="font-bold text-sm text-white flex items-center gap-2">
+                        قريباً <span className="text-xs uppercase opacity-80">Coming Soon</span>
+                      </span>
+                    </div>
                   )}
-                  <span className="text-sm font-black text-primary flex items-center gap-2 bg-primary/5 px-4 py-2 rounded-xl group-hover:bg-primary group-hover:text-primary-foreground transition-all">
-                    شراء <Eye className="w-4 h-4" />
-                  </span>
+                  {category.active && (
+                    <div className="w-10 h-10 rounded-full bg-primary/90 flex items-center justify-center backdrop-blur-md group-hover:bg-primary transition-colors">
+                      <ArrowLeft className="w-5 h-5 text-white" />
+                    </div>
+                  )}
                 </div>
               </div>
-            </Link>
-          ))}
-          
-          {products.length === 0 && (
-            <div className="col-span-full py-24 text-center">
-              {/* This space is intentionally left blank or for future products */}
             </div>
-          )}
+          ))}
         </div>
+
+
       </main>
     </div>
   );

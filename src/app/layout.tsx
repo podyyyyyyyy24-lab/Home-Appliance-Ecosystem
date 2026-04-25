@@ -9,32 +9,32 @@ const cairo = Cairo({
 
 export const metadata: Metadata = {
   title: {
-    default: "Home Kitchen Store",
-    template: "%s | Home Kitchen Store",
+    default: "M Donna Store",
+    template: "%s | M Donna Store",
   },
   description: "تسوق أفضل الأجهزة المنزلية بضمان حقيقي ودفع عند الاستلام. جودة تثق بها وخدمة ما بعد البيع.",
-  keywords: ["أجهزة منزلية", "ثلاجات", "غسالات", "بوتاجازات", "إيكو ستور", "مصر"],
-  authors: [{ name: "Home Kitchen Store" }],
+  keywords: ["عطور", "اكسسوارات", "مكياج", "عناية بالبشرة", "m donna store", "مصر"],
+  authors: [{ name: "M Donna Store" }],
   openGraph: {
     type: "website",
     locale: "ar_EG",
     url: "https://home-appliance-ecosystem.vercel.app/",
-    title: "Home Kitchen Store",
-    description: "تسوق أفضل الأجهزة المنزلية بضمان حقيقي ودفع عند الاستلام. جودة تثق بها وخدمة ما بعد البيع.",
-    siteName: "Home Kitchen Store",
+    title: "M Donna Store",
+    description: "تسوق أفضل العطور والاكسسوارات بضمان حقيقي ودفع عند الاستلام. جودة تثق بها.",
+    siteName: "M Donna Store",
     images: [
       {
         url: "/og-image.png", // This will be the file they choose
         width: 1200,
         height: 630,
-        alt: "Home Kitchen Store للأجهزة المنزلية",
+        alt: "M Donna Store",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Home Kitchen Store",
-    description: "تسوق أفضل الأجهزة المنزلية بضمان حقيقي ودفع عند الاستلام",
+    title: "M Donna Store",
+    description: "تسوق أفضل العطور والاكسسوارات بضمان حقيقي ودفع عند الاستلام",
     images: ["/og-image.png"],
   },
   robots: {

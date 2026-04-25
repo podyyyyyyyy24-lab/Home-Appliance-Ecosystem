@@ -11,6 +11,32 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+model Category {
+  id          String         @id @default(cuid())
+  nameEn      String         @unique
+  nameAr      String
+  codePrefix  String         @unique // e.g. PRF, ACC, MKP, SKN, HAP, HWR
+  image       String?        // Category cover image
+  active      Boolean        @default(false)
+  sortOrder   Int            @default(0)
+  items       CategoryItem[]
+  products    Product[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model CategoryItem {
+  id         String   @id @default(cuid())
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  image      String   // Base64 or URL
+  code       String   @unique // Auto-generated: PRF-001, ACC-002, etc.
+  name       String?  // Optional item name
+  price      Float?   // Optional price
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
 model Product {
   id              String           @id @default(cuid())
   title           String
@@ -18,6 +44,8 @@ model Product {
   basePrice       Float
   warranty_period String?
   image           String?
+  categoryId      String?
+  category        Category?        @relation(fields: [categoryId], references: [id])
   variants        ProductVariant[]
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
