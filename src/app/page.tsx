@@ -55,24 +55,21 @@ export default async function Storefront() {
       <main className="flex-1 max-w-7xl mx-auto w-full px-5 mt-4 z-10 pb-32" dir="rtl">
         
         {/* Modern Hero Section with Full Background Image */}
-        <section className="relative py-24 md:py-32 flex flex-col items-center text-center rounded-[32px] md:rounded-[48px] overflow-hidden mb-16 shadow-xl mt-6">
-          {/* Background Image */}
-          <img 
-            src="https://images.unsplash.com/photo-1596462502278-27bf85033e5a?q=80&w=1600&auto=format&fit=crop" 
-            alt="M Donna Store" 
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/30" />
+        <section 
+          className="relative py-28 md:py-36 flex flex-col items-center text-center rounded-[32px] md:rounded-[48px] overflow-hidden mb-16 shadow-2xl mt-6 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1600&q=80&auto=format&fit=crop')` }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
           
           <div className="relative z-10 w-full max-w-4xl flex flex-col items-center px-5">
             <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/15 backdrop-blur-md text-white font-bold text-sm mb-8 border border-white/25 shadow-lg">
               <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
               تألقي بأرقى العطور والإكسسوارات
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-white tracking-tight leading-[1.15] mb-8 drop-shadow-xl">
-              مرحباً بكِ في <br className="hidden sm:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-l from-yellow-300 to-pink-400 drop-shadow-sm">M Donna Store</span>
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-white tracking-tight leading-[1.15] mb-8" style={{ textShadow: '0 4px 30px rgba(0,0,0,0.6)' }}>
+              مرحباً بكِ في <br className="hidden sm:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-l from-yellow-300 to-pink-400">M Donna Store</span>
             </h2>
-            <p className="text-lg md:text-xl text-white/85 max-w-2xl mb-12 leading-relaxed font-semibold drop-shadow-md">
+            <p className="text-lg md:text-xl text-white/90 max-w-2xl mb-12 leading-relaxed font-semibold" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
               اكتشفي تشكيلتنا الحصرية من العطور الفاخرة والإكسسوارات. تسوقي الآن وادفعي عند الاستلام!
             </p>
           </div>
