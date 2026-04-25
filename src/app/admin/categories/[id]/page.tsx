@@ -5,7 +5,7 @@ import Link from "next/link";
 import { CategoryItemForm } from "./CategoryItemForm";
 import { DeleteItemButton } from "./DeleteItemButton";
 
-export default async function CategoryDetailPage({ params }: { params: { id: string } }) {
+export default async function CategoryDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   const category = await prisma.category.findUnique({
