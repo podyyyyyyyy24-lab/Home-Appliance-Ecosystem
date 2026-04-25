@@ -1,16 +1,40 @@
+import prisma from "@/lib/prisma";
+import Link from "next/link";
 import { Star, ArrowLeft, Sparkles } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
-export default function Storefront() {
+export const dynamic = 'force-dynamic';
 
-  const categories = [
-    { id: "perfumes", nameAr: "برفانات", nameEn: "Perfumes", active: true, image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=600&auto=format&fit=crop" },
-    { id: "accessories", nameAr: "اكسسوار", nameEn: "Accessories", active: true, image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop" },
-    { id: "makeup", nameAr: "ميكايب", nameEn: "Makeup", active: false, image: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=600&auto=format&fit=crop" },
-    { id: "skincare", nameAr: "عناية بلبشرة", nameEn: "Skin Care", active: false, image: "https://images.unsplash.com/photo-1570194065650-d99fb4ee5665?q=80&w=600&auto=format&fit=crop" },
-    { id: "home-appliances", nameAr: "اجهزة منزلية", nameEn: "Home Appliances", active: false, image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?q=80&w=600&auto=format&fit=crop" },
-    { id: "housewares", nameAr: "ادوات منزلية", nameEn: "Housewares", active: false, image: "https://images.unsplash.com/photo-1556909114-44e3e70034e2?q=80&w=600&auto=format&fit=crop" },
-  ];
+// Fallback images for categories when no cover image is set
+const fallbackImages: Record<string, string> = {
+  "Perfumes": "https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=600&auto=format&fit=crop",
+  "Accessories": "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop",
+  "Makeup": "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=600&auto=format&fit=crop",
+  "Skin Care": "https://images.unsplash.com/photo-1570194065650-d99fb4ee5665?q=80&w=600&auto=format&fit=crop",
+  "Home Appliances": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?q=80&w=600&auto=format&fit=crop",
+  "Housewares": "https://images.unsplash.com/photo-1556909114-44e3e70034e2?q=80&w=600&auto=format&fit=crop",
+};
+
+export default async function Storefront() {
+  let categories: any[] = [];
+
+  try {
+    categories = await prisma.category.findMany({
+      include: { _count: { select: { items: true } } },
+      orderBy: { sortOrder: "asc" },
+    });
+  } catch (error) {
+    console.error("Failed to fetch categories:", error);
+    // Use static fallback if DB is down
+    categories = [
+      { id: "perfumes", nameAr: "برفانات", nameEn: "Perfumes", active: true, image: null, _count: { items: 0 } },
+      { id: "accessories", nameAr: "اكسسوار", nameEn: "Accessories", active: true, image: null, _count: { items: 0 } },
+      { id: "makeup", nameAr: "ميكايب", nameEn: "Makeup", active: false, image: null, _count: { items: 0 } },
+      { id: "skincare", nameAr: "عناية بالبشرة", nameEn: "Skin Care", active: false, image: null, _count: { items: 0 } },
+      { id: "home-appliances", nameAr: "اجهزة منزلية", nameEn: "Home Appliances", active: false, image: null, _count: { items: 0 } },
+      { id: "housewares", nameAr: "ادوات منزلية", nameEn: "Housewares", active: false, image: null, _count: { items: 0 } },
+    ];
+  }
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden selection:bg-primary/30">
@@ -28,7 +52,7 @@ export default function Storefront() {
         </div>
       </header>
 
-      <main className="flex-1 max-w-7xl mx-auto w-full px-5 mt-4 z-10 pb-32">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-5 mt-4 z-10 pb-32" dir="rtl">
         
         {/* Modern Hero Section */}
         <section className="relative py-20 md:py-28 flex flex-col items-center text-center rounded-[32px] md:rounded-[48px] overflow-hidden mb-16 shadow-xl border border-white/40 dark:border-white/5 mt-6 bg-gradient-to-br from-pink-50/50 to-purple-50/50 dark:from-purple-900/10 dark:to-pink-900/10 backdrop-blur-md">
@@ -58,37 +82,65 @@ export default function Storefront() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
-          {categories.map((category) => (
-            <div key={category.id} className={`relative group rounded-[28px] overflow-hidden border ${category.active ? 'border-primary/20 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20 cursor-pointer hover:-translate-y-1' : 'border-border/50 opacity-80'} transition-all duration-300 bg-white dark:bg-card aspect-[4/3] flex flex-col`}>
-              <div className="absolute inset-0 z-0">
-                <img src={category.image} alt={category.nameEn} className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-              </div>
-              
-              <div className="relative z-10 flex flex-col justify-end h-full p-6 text-white">
-                <div className="flex justify-between items-end">
-                  <div>
-                    <h3 className="text-3xl font-black mb-1 tracking-tight">{category.nameEn}</h3>
-                    <p className="text-xl font-bold text-gray-300">{category.nameAr}</p>
-                  </div>
-                  {!category.active && (
-                    <div className="bg-black/50 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20">
-                      <span className="font-bold text-sm text-white flex items-center gap-2">
-                        قريباً <span className="text-xs uppercase opacity-80">Coming Soon</span>
-                      </span>
-                    </div>
-                  )}
-                  {category.active && (
-                    <div className="w-10 h-10 rounded-full bg-primary/90 flex items-center justify-center backdrop-blur-md group-hover:bg-primary transition-colors">
-                      <ArrowLeft className="w-5 h-5 text-white" />
-                    </div>
-                  )}
+          {categories.map((category) => {
+            const coverImage = category.image || fallbackImages[category.nameEn] || "";
+            const itemCount = category._count?.items || 0;
+            
+            const CardContent = (
+              <>
+                <div className="absolute inset-0 z-0">
+                  <img src={coverImage} alt={category.nameEn} className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
+                
+                <div className="relative z-10 flex flex-col justify-end h-full p-6 text-white">
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <h3 className="text-3xl font-black mb-1 tracking-tight">{category.nameEn}</h3>
+                      <p className="text-xl font-bold text-gray-300">{category.nameAr}</p>
+                      {itemCount > 0 && (
+                        <p className="text-sm text-gray-400 mt-1">{itemCount} منتج</p>
+                      )}
+                    </div>
+                    {!category.active && (
+                      <div className="bg-black/50 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20">
+                        <span className="font-bold text-sm text-white flex items-center gap-2">
+                          قريباً <span className="text-xs uppercase opacity-80">Coming Soon</span>
+                        </span>
+                      </div>
+                    )}
+                    {category.active && (
+                      <div className="w-10 h-10 rounded-full bg-primary/90 flex items-center justify-center backdrop-blur-md group-hover:bg-primary transition-colors">
+                        <ArrowLeft className="w-5 h-5 text-white" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </>
+            );
 
+            if (category.active) {
+              return (
+                <Link
+                  key={category.id}
+                  href={`/category/${category.id}`}
+                  className="relative group rounded-[28px] overflow-hidden border border-primary/20 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20 cursor-pointer hover:-translate-y-1 transition-all duration-300 bg-white dark:bg-card aspect-[4/3] flex flex-col"
+                >
+                  {CardContent}
+                </Link>
+              );
+            }
+
+            return (
+              <div
+                key={category.id}
+                className="relative group rounded-[28px] overflow-hidden border border-border/50 opacity-80 transition-all duration-300 bg-white dark:bg-card aspect-[4/3] flex flex-col"
+              >
+                {CardContent}
+              </div>
+            );
+          })}
+        </div>
 
       </main>
     </div>
