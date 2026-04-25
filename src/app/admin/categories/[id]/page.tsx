@@ -4,6 +4,7 @@ import { ArrowRight, Hash, Image as ImageIcon } from "lucide-react";
 import Link from "next/link";
 import { CategoryItemForm } from "./CategoryItemForm";
 import { DeleteItemButton } from "./DeleteItemButton";
+import { EditItemButton } from "./EditItemButton";
 
 export default async function CategoryDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -64,7 +65,10 @@ export default async function CategoryDetailPage({ params }: { params: Promise<{
                   <p className="text-xs text-gray-400 font-mono">{item.code}</p>
                 )}
               </div>
-              <DeleteItemButton itemId={item.id} />
+              <div className="flex items-center gap-1">
+                <EditItemButton item={{ id: item.id, name: item.name, price: item.price, image: item.image, code: item.code }} />
+                <DeleteItemButton itemId={item.id} />
+              </div>
             </div>
           </div>
         ))}

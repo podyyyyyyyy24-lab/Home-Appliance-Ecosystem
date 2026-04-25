@@ -68,6 +68,30 @@ export async function deleteCategoryItem(itemId: string) {
   revalidatePath("/admin/categories");
 }
 
+// Update a category item (name, price, image)
+export async function updateCategoryItem(formData: FormData) {
+  const itemId = formData.get("itemId") as string;
+  const name = formData.get("name") as string;
+  const priceStr = formData.get("price") as string;
+  const image = formData.get("image") as string;
+  const price = priceStr ? parseFloat(priceStr) : null;
+
+  const item = await prisma.categoryItem.findUnique({ where: { id: itemId } });
+  if (!item) throw new Error("Item not found");
+
+  await prisma.categoryItem.update({
+    where: { id: itemId },
+    data: {
+      name: name?.trim() || null,
+      price,
+      ...(image?.trim() ? { image } : {}),
+    },
+  });
+
+  revalidatePath("/admin/categories");
+  revalidatePath("/admin/categories/" + item.categoryId);
+}
+
 // Toggle category active status
 export async function toggleCategoryActive(categoryId: string) {
   const category = await prisma.category.findUnique({ where: { id: categoryId } });

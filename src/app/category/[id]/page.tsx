@@ -42,17 +42,35 @@ export default async function CategoryPage({ params }: { params: Promise<{ id: s
         </div>
       </header>
 
-      {/* Hero Banner */}
-      <div className="relative bg-gradient-to-bl from-primary/10 via-background to-background py-12 px-6">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-black text-foreground mb-3">
-            {category.nameAr}
-          </h2>
-          <p className="text-gray-500 text-lg max-w-xl mx-auto">
-            تسوّقي أحدث تشكيلة {category.nameAr} من M Donna Store
-          </p>
-        </div>
-      </div>
+      {/* Hero Banner with Background Image */}
+      {(() => {
+        const bgImages: Record<string, string> = {
+          "Perfumes": "https://images.unsplash.com/photo-1615634260167-c8cdede054de?q=80&w=1400&auto=format&fit=crop",
+          "Accessories": "https://images.unsplash.com/photo-1515562141589-67f0d569b66a?q=80&w=1400&auto=format&fit=crop",
+          "Makeup": "https://images.unsplash.com/photo-1596462502278-27bf85033e5a?q=80&w=1400&auto=format&fit=crop",
+          "Skin Care": "https://images.unsplash.com/photo-1570194065650-d99fb4ee5665?q=80&w=1400&auto=format&fit=crop",
+          "Home Appliances": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=1400&auto=format&fit=crop",
+          "Housewares": "https://images.unsplash.com/photo-1556909114-44e3e70034e2?q=80&w=1400&auto=format&fit=crop",
+        };
+        const bgImage = category.image || bgImages[category.nameEn] || bgImages["Accessories"];
+        return (
+          <div className="relative h-64 md:h-80 overflow-hidden">
+            <img src={bgImage} alt={category.nameEn} className="absolute inset-0 w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
+            <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
+              <h2 className="text-5xl md:text-6xl font-black text-white mb-3 drop-shadow-xl">
+                {category.nameAr}
+              </h2>
+              <p className="text-white/80 text-lg max-w-xl mx-auto drop-shadow-md">
+                تسوّقي أحدث تشكيلة {category.nameAr} من M Donna Store
+              </p>
+              <div className="mt-4 bg-white/20 backdrop-blur-md px-5 py-2 rounded-full border border-white/30">
+                <span className="text-white font-bold text-sm">{category.items.length} منتج متوفر</span>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Products Grid */}
       <main className="max-w-7xl mx-auto px-6 py-10">
