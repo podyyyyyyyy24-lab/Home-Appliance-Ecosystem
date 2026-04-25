@@ -7,12 +7,12 @@ export const dynamic = 'force-dynamic';
 
 // Fallback images for categories when no cover image is set
 const fallbackImages: Record<string, string> = {
-  "Perfumes": "https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=600&auto=format&fit=crop",
-  "Accessories": "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop",
-  "Makeup": "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=600&auto=format&fit=crop",
-  "Skin Care": "https://images.unsplash.com/photo-1570194065650-d99fb4ee5665?q=80&w=600&auto=format&fit=crop",
-  "Home Appliances": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?q=80&w=600&auto=format&fit=crop",
-  "Housewares": "https://images.unsplash.com/photo-1556909114-44e3e70034e2?q=80&w=600&auto=format&fit=crop",
+  "Perfumes": "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=600&q=70&auto=format&fit=crop",
+  "Accessories": "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&q=70&auto=format&fit=crop",
+  "Makeup": "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=600&q=70&auto=format&fit=crop",
+  "Skin Care": "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=70&auto=format&fit=crop",
+  "Home Appliances": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=70&auto=format&fit=crop",
+  "Housewares": "https://images.unsplash.com/photo-1583845112239-97ef1341b271?w=600&q=70&auto=format&fit=crop",
 };
 
 export default async function Storefront() {
