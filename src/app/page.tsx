@@ -38,38 +38,43 @@ export default async function Storefront() {
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden selection:bg-primary/30">
-      <div className="fixed inset-0 bg-gradient-to-br from-gray-50 via-gray-100 to-white dark:from-gray-900 dark:via-black dark:to-gray-950 -z-20 transition-colors duration-700" />
+      {/* Full Page Background Image */}
+      <div className="fixed inset-0 -z-20">
+        <img 
+          src="https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?w=1400&q=70&auto=format&fit=crop" 
+          alt="" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/75 dark:bg-black/85" />
+      </div>
       
       <header className="px-6 py-6 flex justify-between items-center max-w-7xl mx-auto w-full z-10">
-        <h1 className="text-3xl font-black text-foreground tracking-tight flex items-center gap-2.5 hover:scale-105 transition-transform cursor-pointer drop-shadow-sm">
+        <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-2.5 hover:scale-105 transition-transform cursor-pointer drop-shadow-lg">
           <div className="w-11 h-11 bg-primary rounded-2xl flex items-center justify-center shadow-lg shadow-primary/30">
             <Sparkles className="text-white w-6 h-6" />
           </div>
           M Donna Store<span className="text-primary -ml-2 text-4xl">.</span>
         </h1>
-        <div className="flex gap-4 items-center bg-white/50 dark:bg-black/50 backdrop-blur-md px-2 py-1.5 rounded-2xl shadow-sm border border-border/50">
+        <div className="flex gap-4 items-center bg-white/10 backdrop-blur-md px-2 py-1.5 rounded-2xl shadow-sm border border-white/20">
           <ThemeToggle />
         </div>
       </header>
 
       <main className="flex-1 max-w-7xl mx-auto w-full px-5 mt-4 z-10 pb-32" dir="rtl">
         
-        {/* Modern Hero Section with Full Background Image */}
-        <section 
-          className="relative py-28 md:py-36 flex flex-col items-center text-center rounded-[32px] md:rounded-[48px] overflow-hidden mb-16 shadow-2xl mt-6 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1600&q=80&auto=format&fit=crop')` }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
+        {/* Hero Section - Glass Card */}
+        <section className="relative py-28 md:py-36 flex flex-col items-center text-center rounded-[32px] md:rounded-[48px] overflow-hidden mb-16 shadow-2xl mt-6 bg-white/5 backdrop-blur-md border border-white/10">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-primary/5 pointer-events-none" />
           
           <div className="relative z-10 w-full max-w-4xl flex flex-col items-center px-5">
             <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/15 backdrop-blur-md text-white font-bold text-sm mb-8 border border-white/25 shadow-lg">
               <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
               تألقي بأرقى العطور والإكسسوارات
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-white tracking-tight leading-[1.15] mb-8" style={{ textShadow: '0 4px 30px rgba(0,0,0,0.6)' }}>
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-white tracking-tight leading-[1.15] mb-8" style={{ textShadow: '0 4px 30px rgba(0,0,0,0.4)' }}>
               مرحباً بكِ في <br className="hidden sm:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-l from-yellow-300 to-pink-400">M Donna Store</span>
             </h2>
-            <p className="text-lg md:text-xl text-white/90 max-w-2xl mb-12 leading-relaxed font-semibold" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
+            <p className="text-lg md:text-xl text-white/80 max-w-2xl mb-12 leading-relaxed font-semibold">
               اكتشفي تشكيلتنا الحصرية من العطور الفاخرة والإكسسوارات. تسوقي الآن وادفعي عند الاستلام!
             </p>
           </div>
@@ -77,7 +82,7 @@ export default async function Storefront() {
 
         {/* Categories Grid */}
         <div className="mb-8 flex justify-between items-end px-2">
-          <h2 className="text-3xl font-black text-foreground">الأقسام <span className="text-primary relative inline-block">
+          <h2 className="text-3xl font-black text-white">الأقسام <span className="text-primary relative inline-block">
             Categories
             <svg className="absolute w-full h-3 -bottom-1 left-0 text-primary/30" viewBox="0 0 100 20" preserveAspectRatio="none"><path d="M0,10 Q50,20 100,10" fill="none" stroke="currentColor" strokeWidth="4"/></svg>
             </span>
