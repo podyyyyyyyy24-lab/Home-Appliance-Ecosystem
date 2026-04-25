@@ -54,19 +54,25 @@ export default async function Storefront() {
 
       <main className="flex-1 max-w-7xl mx-auto w-full px-5 mt-4 z-10 pb-32" dir="rtl">
         
-        {/* Modern Hero Section */}
-        <section className="relative py-20 md:py-28 flex flex-col items-center text-center rounded-[32px] md:rounded-[48px] overflow-hidden mb-16 shadow-xl border border-white/40 dark:border-white/5 mt-6 bg-gradient-to-br from-pink-50/50 to-purple-50/50 dark:from-purple-900/10 dark:to-pink-900/10 backdrop-blur-md">
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-primary/5 pointer-events-none" />
+        {/* Modern Hero Section with Full Background Image */}
+        <section className="relative py-24 md:py-32 flex flex-col items-center text-center rounded-[32px] md:rounded-[48px] overflow-hidden mb-16 shadow-xl mt-6">
+          {/* Background Image */}
+          <img 
+            src="https://images.unsplash.com/photo-1596462502278-27bf85033e5a?q=80&w=1600&auto=format&fit=crop" 
+            alt="M Donna Store" 
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/30" />
           
           <div className="relative z-10 w-full max-w-4xl flex flex-col items-center px-5">
-            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/80 dark:bg-black/80 backdrop-blur-md text-primary font-bold text-sm mb-8 border border-primary/20 shadow-sm">
-              <Star className="w-4 h-4 fill-primary" />
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/15 backdrop-blur-md text-white font-bold text-sm mb-8 border border-white/25 shadow-lg">
+              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
               تألقي بأرقى العطور والإكسسوارات
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-foreground tracking-tight leading-[1.15] mb-8 drop-shadow-sm">
-              مرحباً بكِ في <br className="hidden sm:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-l from-primary to-pink-500 drop-shadow-sm">M Donna Store</span>
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-white tracking-tight leading-[1.15] mb-8 drop-shadow-xl">
+              مرحباً بكِ في <br className="hidden sm:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-l from-yellow-300 to-pink-400 drop-shadow-sm">M Donna Store</span>
             </h2>
-            <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mb-12 leading-relaxed font-semibold">
+            <p className="text-lg md:text-xl text-white/85 max-w-2xl mb-12 leading-relaxed font-semibold drop-shadow-md">
               اكتشفي تشكيلتنا الحصرية من العطور الفاخرة والإكسسوارات. تسوقي الآن وادفعي عند الاستلام!
             </p>
           </div>

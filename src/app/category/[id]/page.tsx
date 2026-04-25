@@ -42,29 +42,38 @@ export default async function CategoryPage({ params }: { params: Promise<{ id: s
         </div>
       </header>
 
-      {/* Hero Banner with Background Image */}
+      {/* Hero Banner with Full Background Image */}
       {(() => {
         const bgImages: Record<string, string> = {
-          "Perfumes": "https://images.unsplash.com/photo-1615634260167-c8cdede054de?q=80&w=1400&auto=format&fit=crop",
-          "Accessories": "https://images.unsplash.com/photo-1515562141589-67f0d569b66a?q=80&w=1400&auto=format&fit=crop",
-          "Makeup": "https://images.unsplash.com/photo-1596462502278-27bf85033e5a?q=80&w=1400&auto=format&fit=crop",
-          "Skin Care": "https://images.unsplash.com/photo-1570194065650-d99fb4ee5665?q=80&w=1400&auto=format&fit=crop",
-          "Home Appliances": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=1400&auto=format&fit=crop",
-          "Housewares": "https://images.unsplash.com/photo-1556909114-44e3e70034e2?q=80&w=1400&auto=format&fit=crop",
+          "Perfumes": "https://images.unsplash.com/photo-1615634260167-c8cdede054de?q=80&w=1920&auto=format&fit=crop",
+          "Accessories": "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=1920&auto=format&fit=crop",
+          "Makeup": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1920&auto=format&fit=crop",
+          "Skin Care": "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1920&auto=format&fit=crop",
+          "Home Appliances": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?q=80&w=1920&auto=format&fit=crop",
+          "Housewares": "https://images.unsplash.com/photo-1556909114-44e3e70034e2?q=80&w=1920&auto=format&fit=crop",
         };
         const bgImage = category.image || bgImages[category.nameEn] || bgImages["Accessories"];
         return (
-          <div className="relative h-64 md:h-80 overflow-hidden">
-            <img src={bgImage} alt={category.nameEn} className="absolute inset-0 w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
+          <div className="relative h-72 md:h-96 overflow-hidden">
+            <img 
+              src={bgImage} 
+              alt={category.nameEn} 
+              className="absolute inset-0 w-full h-full object-cover scale-105" 
+              style={{ objectPosition: 'center 30%' }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
+            <div className="absolute inset-0 bg-primary/10" />
             <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
-              <h2 className="text-5xl md:text-6xl font-black text-white mb-3 drop-shadow-xl">
+              <div className="mb-4 bg-white/15 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/20">
+                <span className="text-white/90 text-sm font-bold">{category.nameEn}</span>
+              </div>
+              <h2 className="text-5xl md:text-7xl font-black text-white mb-4 drop-shadow-2xl" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.5)' }}>
                 {category.nameAr}
               </h2>
-              <p className="text-white/80 text-lg max-w-xl mx-auto drop-shadow-md">
+              <p className="text-white/80 text-lg max-w-xl mx-auto drop-shadow-lg mb-5">
                 تسوّقي أحدث تشكيلة {category.nameAr} من M Donna Store
               </p>
-              <div className="mt-4 bg-white/20 backdrop-blur-md px-5 py-2 rounded-full border border-white/30">
+              <div className="bg-white/20 backdrop-blur-md px-6 py-2.5 rounded-full border border-white/30 shadow-xl">
                 <span className="text-white font-bold text-sm">{category.items.length} منتج متوفر</span>
               </div>
             </div>
