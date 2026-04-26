@@ -1,8 +1,9 @@
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, ShoppingBag, Hash, Sparkles } from "lucide-react";
+import { ArrowRight, ShoppingBag, Sparkles } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { CategoryItemCard } from "@/components/CategoryItemCard";
 
 export default async function CategoryPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -108,46 +109,11 @@ export default async function CategoryPage({ params }: { params: Promise<{ id: s
           {category.items.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
               {category.items.map((item) => (
-                <div
+                <CategoryItemCard
                   key={item.id}
-                  className="group bg-white/90 dark:bg-card/90 backdrop-blur-sm rounded-[24px] border border-border/50 shadow-sm hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 transition-all duration-300 overflow-hidden flex flex-col"
-                >
-                  {/* Image */}
-                  <div className="relative h-64 bg-gray-50 dark:bg-gray-800/40 overflow-hidden">
-                    <img
-                      src={item.image}
-                      alt={item.name || item.code}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                      loading="lazy"
-                    />
-                    {/* Code Badge */}
-                    <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white px-2.5 py-1 rounded-lg text-xs font-mono font-bold flex items-center gap-1 shadow-lg">
-                      <Hash className="w-3 h-3" />
-                      {item.code}
-                    </div>
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </div>
-
-                  {/* Info */}
-                  <div className="p-4 flex flex-col flex-1 justify-between bg-white/95 dark:bg-card border-t border-border/50">
-                    {item.name && (
-                      <h3 className="font-bold text-foreground text-base group-hover:text-primary transition-colors line-clamp-2 mb-2">
-                        {item.name}
-                      </h3>
-                    )}
-                    {item.price ? (
-                      <div className="flex items-end gap-1.5 mt-auto">
-                        <span className="text-2xl font-black text-foreground tracking-tight">
-                          {item.price.toLocaleString()}
-                        </span>
-                        <span className="text-sm font-bold text-gray-500 pb-0.5">ج.م</span>
-                      </div>
-                    ) : (
-                      <p className="text-sm text-gray-400 mt-auto">تواصل للسعر</p>
-                    )}
-                  </div>
-                </div>
+                  item={item}
+                  categoryName={category.nameAr}
+                />
               ))}
             </div>
           ) : (

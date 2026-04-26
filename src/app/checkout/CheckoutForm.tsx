@@ -4,19 +4,49 @@ import { useState } from "react";
 import { ShieldCheck, Truck, MapPin, MapPinOff } from "lucide-react";
 import { saveOrder } from "./actions"; // Server action to process the order
 import { useRouter } from "next/navigation";
+import { useCart } from "@/components/CartProvider";
 
-export function CheckoutForm({ product, variantId, provinces }: { product: any, variantId?: string, provinces: any[] }) {
+interface CartItemData {
+  id: string;
+  code: string;
+  name: string | null;
+  price: number;
+  quantity: number;
+  image?: string;
+}
+
+export function CheckoutForm({
+  product,
+  variantId,
+  provinces,
+  cartItems,
+  cartProvinceId,
+}: {
+  product?: any;
+  variantId?: string;
+  provinces: any[];
+  cartItems?: CartItemData[];
+  cartProvinceId?: string;
+}) {
   const router = useRouter();
-  const [selectedProvinceId, setSelectedProvinceId] = useState("");
+  const { clearCart } = useCart();
+  const [selectedProvinceId, setSelectedProvinceId] = useState(cartProvinceId || "");
   const [loading, setLoading] = useState(false);
   const [locationLoading, setLocationLoading] = useState(false);
   const [address, setAddress] = useState("");
 
+  const isCartMode = !!cartItems && cartItems.length > 0;
+
   const selectedProvince = provinces.find((p) => p.id === selectedProvinceId);
   const shippingFee = selectedProvince ? selectedProvince.shippingFee : 0;
-  const grandTotal = product.basePrice + shippingFee;
 
-  const activeVariant = product.variants.find((v: any) => v.id === variantId) || product.variants[0];
+  // حساب الإجمالي حسب الوضع
+  const itemsTotal = isCartMode
+    ? cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0)
+    : product?.basePrice || 0;
+  const grandTotal = itemsTotal + shippingFee;
+
+  const activeVariant = product?.variants?.find((v: any) => v.id === variantId) || product?.variants?.[0];
 
   const handleGetLocation = () => {
     if (!navigator.geolocation) {
@@ -49,13 +79,27 @@ export function CheckoutForm({ product, variantId, provinces }: { product: any, 
     try {
       const formData = new FormData(e.currentTarget);
       formData.append("totalAmount", grandTotal.toString());
-      if (activeVariant) {
-        formData.append("variantName", activeVariant.colorName); // save for records
+
+      if (isCartMode) {
+        // وضع السلة: إرسال تفاصيل المنتجات كـ JSON
+        const itemsSummary = cartItems.map(i =>
+          `${i.name || i.code} × ${i.quantity} = ${(i.price * i.quantity).toLocaleString()} ج.م`
+        ).join("\n");
+        formData.append("orderNotes", itemsSummary);
+        formData.append("cartData", JSON.stringify(cartItems));
+      } else if (activeVariant) {
+        formData.append("variantName", activeVariant.colorName);
         formData.append("variantId", activeVariant.id);
       }
 
       await saveOrder(formData);
-      router.push("/thank-you"); // redirecting to success page
+      
+      // لو كان وضع السلة، نفرغ السلة بعد التأكيد
+      if (isCartMode) {
+        clearCart();
+      }
+      
+      router.push("/thank-you");
     } catch (err) {
       console.error(err);
       alert("حدث خطأ أثناء رفع الطلب.");
@@ -123,7 +167,7 @@ export function CheckoutForm({ product, variantId, provinces }: { product: any, 
           </div>
         </div>
 
-        {/* Dynamic Total Cost Box precisely meeting Prompt criteria */}
+        {/* صندوق الإجمالي الديناميكي */}
         <div className="bg-primary/10 dark:bg-primary/20 border-2 border-primary/30 rounded-[24px] p-6 lg:p-8 flex flex-col items-center text-center shadow-sm">
            <h3 className="text-xl font-bold text-foreground mb-1">الإجمالي المطلوب دفعه للمندوب كاش</h3>
            <div className="flex items-center gap-2 mt-2">
@@ -132,7 +176,10 @@ export function CheckoutForm({ product, variantId, provinces }: { product: any, 
            </div>
            {selectedProvinceId ? (
              <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 mt-3 bg-white dark:bg-gray-800 px-3 py-1.5 rounded-xl whitespace-pre-wrap">
-               شامل سعر المنتج + مصاريف الشحن ({shippingFee} ج.م)
+               {isCartMode
+                 ? `شامل ${cartItems!.reduce((s, i) => s + i.quantity, 0)} قطع (${itemsTotal.toLocaleString()} ج.م) + شحن (${shippingFee} ج.م)`
+                 : `شامل سعر المنتج + مصاريف الشحن (${shippingFee} ج.م)`
+               }
              </p>
            ) : (
              <p className="text-sm font-semibold text-red-500 mt-3 animate-pulse">
