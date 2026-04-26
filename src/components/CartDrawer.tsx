@@ -48,15 +48,11 @@ export function CartDrawer() {
 
   const handleCheckout = () => {
     if (items.length === 0) return;
-    // Pass cart to checkout via URL params
-    const cartData = encodeURIComponent(JSON.stringify({
-      items: items.map(i => ({ id: i.id, code: i.code, name: i.name, price: i.price, quantity: i.quantity, image: i.image })),
-      provinceId: selectedProvinceId,
-      shippingFee,
-      subtotal,
-      grandTotal,
-    }));
-    router.push(`/checkout?cart=${cartData}`);
+    // حفظ المحافظة المختارة في localStorage وفتح صفحة الـ checkout
+    if (selectedProvinceId) {
+      localStorage.setItem("mdonna_selected_province", selectedProvinceId);
+    }
+    router.push("/checkout?mode=cart");
     setIsOpen(false);
   };
 
