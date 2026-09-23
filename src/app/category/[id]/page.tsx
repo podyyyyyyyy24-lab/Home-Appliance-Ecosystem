@@ -8,12 +8,48 @@ import { CategoryItemCard } from "@/components/CategoryItemCard";
 export default async function CategoryPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
-  const category = await prisma.category.findUnique({
-    where: { id },
-    include: {
-      items: { orderBy: { code: "asc" } },
-    },
-  });
+  let category: any = null;
+
+  try {
+    category = await prisma.category.findFirst({
+      where: {
+        OR: [
+          { id },
+          { nameEn: { equals: id, mode: "insensitive" } },
+          { codePrefix: { equals: id, mode: "insensitive" } },
+        ],
+      },
+      include: {
+        items: { orderBy: { code: "asc" } },
+      },
+    });
+  } catch (error) {
+    console.error("Database connection failed for category:", error);
+  }
+
+  // Fallback if category not found in DB or DB is paused/down
+  if (!category) {
+    const fallbackCategories: Record<string, any> = {
+      perfumes: {
+        id: "perfumes",
+        nameEn: "Perfumes",
+        nameAr: "برفانات",
+        active: true,
+        image: null,
+        items: [],
+      },
+      accessories: {
+        id: "accessories",
+        nameEn: "Accessories",
+        nameAr: "اكسسوار",
+        active: true,
+        image: null,
+        items: [],
+      },
+    };
+
+    category = fallbackCategories[id];
+  }
 
   if (!category) return notFound();
 
@@ -108,7 +144,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ id: s
         <div className="max-w-7xl mx-auto px-6 py-10 relative z-10">
           {category.items.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-              {category.items.map((item) => (
+              {category.items.map((item: any) => (
                 <CategoryItemCard
                   key={item.id}
                   item={item}

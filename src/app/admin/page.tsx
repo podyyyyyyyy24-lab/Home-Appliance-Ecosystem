@@ -3,49 +3,79 @@ import prisma from "@/lib/prisma";
 
 export default async function AdminDashboard() {
   // Live Data Aggregation from Supabase PostgeSQL DB
-  
-  // 1. Realized Revenue (Delivered Only)
-  const deliveredOrders = await prisma.order.aggregate({
-    where: { status: 'DELIVERED' },
-    _sum: { totalAmount: true },
-    _count: { id: true }
-  });
-  
-  // 2. Pending Orders Value (In Transit & Pending)
-  const pendingOrders = await prisma.order.aggregate({
-    where: { 
-      status: { in: ['PENDING', 'OUT_FOR_DELIVERY'] }
-    },
-    _sum: { totalAmount: true },
-    _count: { id: true }
-  });
-  
-  // 3. Current Floating Cash with Couriers
-  const couriersCustody = await prisma.courier.aggregate({
-    _sum: { custodyAmount: true }
-  });
-
-  // 4. Inventory Value
-  const products = await prisma.product.findMany({
-    include: { variants: true }
-  });
-  
+  let totalSales = 0;
+  let pendingSales = 0;
+  let custodyCash = 0;
+  let safeCash = 0;
   let inventoryValue = 0;
   let totalStockPieces = 0;
-  products.forEach(p => {
-    p.variants.forEach(v => {
-      inventoryValue += (p.basePrice * v.stock);
-      totalStockPieces += v.stock;
-    });
-  });
+  let deliveredCount = 0;
+  let pendingCount = 0;
+  let dbConnectionError = false;
 
-  const totalSales = deliveredOrders._sum.totalAmount || 0;
-  const pendingSales = pendingOrders._sum.totalAmount || 0;
-  const custodyCash = couriersCustody._sum.custodyAmount || 0;
-  const safeCash = totalSales - custodyCash; // What physically arrived correctly into the local safe
+  try {
+    // 1. Realized Revenue (Delivered Only)
+    const deliveredOrders = await prisma.order.aggregate({
+      where: { status: 'DELIVERED' },
+      _sum: { totalAmount: true },
+      _count: { id: true }
+    });
+    
+    // 2. Pending Orders Value (In Transit & Pending)
+    const pendingOrders = await prisma.order.aggregate({
+      where: { 
+        status: { in: ['PENDING', 'OUT_FOR_DELIVERY'] }
+      },
+      _sum: { totalAmount: true },
+      _count: { id: true }
+    });
+    
+    // 3. Current Floating Cash with Couriers
+    const couriersCustody = await prisma.courier.aggregate({
+      _sum: { custodyAmount: true }
+    });
+
+    // 4. Inventory Value
+    const products = await prisma.product.findMany({
+      include: { variants: true }
+    });
+    
+    products.forEach(p => {
+      p.variants.forEach(v => {
+        inventoryValue += (p.basePrice * v.stock);
+        totalStockPieces += v.stock;
+      });
+    });
+
+    totalSales = deliveredOrders._sum.totalAmount || 0;
+    pendingSales = pendingOrders._sum.totalAmount || 0;
+    custodyCash = couriersCustody._sum.custodyAmount || 0;
+    safeCash = totalSales - custodyCash;
+    deliveredCount = deliveredOrders._count.id || 0;
+    pendingCount = pendingOrders._count.id || 0;
+  } catch {
+    // Database is paused or offline
+    dbConnectionError = true;
+  }
 
   return (
     <div className="space-y-8 max-w-6xl mx-auto">
+      {dbConnectionError && (
+        <div className="bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50 rounded-2xl p-5 flex items-start gap-4 text-amber-900 dark:text-amber-200">
+          <AlertCircle className="w-6 h-6 text-amber-600 shrink-0 mt-0.5" />
+          <div className="text-sm leading-relaxed">
+            <p className="font-bold text-base mb-1">قاعدة بيانات Supabase في وضع التوقف المؤقت (Paused Project)</p>
+            <p className="opacity-90">
+              لتحديث الأرقام والمنتجات الحية، يُرجى الدخول إلى حسابك في{" "}
+              <a href="https://supabase.com/dashboard/project/xldmytcxmbnueidvupsh" target="_blank" rel="noreferrer" className="underline font-bold hover:text-amber-700">
+                لوحة تحكم Supabase
+              </a>{" "}
+              والضغط على <strong>Restore Project</strong> لتنشيطها فوراً.
+            </p>
+          </div>
+        </div>
+      )}
+
       <div className="bg-card border border-border rounded-[32px] p-8 flex items-center gap-6 shadow-sm relative overflow-hidden">
         {/* Glow effect */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[80px] rounded-full -z-10" />
@@ -82,7 +112,7 @@ export default async function AdminDashboard() {
             </div>
           </div>
           <p className="text-4xl font-black text-foreground">{totalSales.toLocaleString()}</p>
-          <p className="text-sm font-medium mt-3 text-gray-500 flex items-center gap-2">نتاج إتمام <span className="text-foreground font-black bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-md">{deliveredOrders._count.id}</span> عملية بيع ناجحة</p>
+          <p className="text-sm font-medium mt-3 text-gray-500 flex items-center gap-2">نتاج إتمام <span className="text-foreground font-black bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-md">{deliveredCount}</span> عملية بيع ناجحة</p>
         </div>
 
         <div className="bg-white dark:bg-card border border-red-200 dark:border-red-900/40 rounded-[28px] p-8 shadow-sm hover:-translate-y-1 transition-transform">
@@ -114,7 +144,7 @@ export default async function AdminDashboard() {
         <div className="bg-card border border-border rounded-[28px] p-8 shadow-sm flex items-center justify-between">
           <div>
             <h3 className="text-gray-600 dark:text-gray-400 font-bold text-lg mb-2">عدد الطلبات الجارية في السوق الآن</h3>
-            <p className="text-4xl font-black text-foreground">{pendingOrders._count.id} <span className="text-lg font-bold text-gray-400">شحنة</span></p>
+            <p className="text-4xl font-black text-foreground">{pendingCount} <span className="text-lg font-bold text-gray-400">شحنة</span></p>
           </div>
           <Truck className="w-16 h-16 text-gray-200 dark:text-gray-700" />
         </div>

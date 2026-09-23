@@ -18,9 +18,14 @@ export default async function AdminLayout({
   }
 
   // Fetch all couriers for the sidebar impersonation list
-  const couriers = await prisma.courier.findMany({
-    orderBy: { name: "asc" }
-  });
+  let couriers: any[] = [];
+  try {
+    couriers = await prisma.courier.findMany({
+      orderBy: { name: "asc" }
+    });
+  } catch {
+    // Database offline fallback
+  }
 
   return (
     <div className="flex h-screen bg-background text-foreground">

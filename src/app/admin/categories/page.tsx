@@ -5,13 +5,19 @@ import { seedCategories } from "./actions";
 import { ToggleCategoryButton } from "./ToggleCategoryButton";
 
 export default async function CategoriesPage() {
-  // Ensure default categories exist
-  await seedCategories();
+  let categories: any[] = [];
 
-  const categories = await prisma.category.findMany({
-    include: { items: { orderBy: { code: "asc" } }, _count: { select: { items: true } } },
-    orderBy: { sortOrder: "asc" },
-  });
+  try {
+    // Ensure default categories exist
+    await seedCategories();
+
+    categories = await prisma.category.findMany({
+      include: { items: { orderBy: { code: "asc" } }, _count: { select: { items: true } } },
+      orderBy: { sortOrder: "asc" },
+    });
+  } catch {
+    // Database offline fallback
+  }
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
@@ -58,7 +64,7 @@ export default async function CategoriesPage() {
               {/* Thumbnail Preview Grid */}
               {category.items.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {category.items.slice(0, 6).map((item) => (
+                  {category.items.slice(0, 6).map((item: any) => (
                     <div key={item.id} className="relative w-14 h-14 rounded-lg overflow-hidden border border-border shadow-sm">
                       <img src={item.image} alt={item.code} className="w-full h-full object-cover" />
                       <div className="absolute bottom-0 inset-x-0 bg-black/70 text-white text-[8px] text-center font-mono py-0.5">{item.code}</div>

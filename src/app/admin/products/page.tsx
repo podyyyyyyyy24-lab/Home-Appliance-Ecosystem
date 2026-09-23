@@ -4,12 +4,17 @@ import { PlusCircle, Image as ImageIcon, Palette, Package } from "lucide-react";
 import { DeleteProductButton } from "./DeleteProductButton";
 
 export default async function ProductsPage() {
-  const products = await prisma.product.findMany({
-    include: {
-      variants: true,
-    },
-    orderBy: { createdAt: "desc" }
-  });
+  let products: any[] = [];
+  try {
+    products = await prisma.product.findMany({
+      include: {
+        variants: true,
+      },
+      orderBy: { createdAt: "desc" }
+    });
+  } catch {
+    // Database offline fallback
+  }
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
@@ -56,7 +61,7 @@ export default async function ProductsPage() {
                   <p className="text-sm text-gray-400 mt-2 hidden">بدون ضمان</p>
                 )}
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {product.variants.map((variant) => (
+                  {product.variants.map((variant: any) => (
                     <div key={variant.id} className="w-6 h-6 rounded-full border border-gray-200 shadow-sm" style={{ backgroundColor: variant.colorHex }} title={`${variant.colorName} - المتاح: ${variant.stock}`} />
                   ))}
                 </div>
