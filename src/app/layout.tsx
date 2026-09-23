@@ -12,33 +12,33 @@ const cairo = Cairo({
 
 export const metadata: Metadata = {
   title: {
-    default: "M Donna Store",
-    template: "%s | M Donna Store",
+    default: "PhoneHub Store | متجر الهواتف والإكسسوارات والاسكرينات",
+    template: "%s | PhoneHub Store",
   },
-  description: "تسوق أفضل الأجهزة المنزلية بضمان حقيقي ودفع عند الاستلام. جودة تثق بها وخدمة ما بعد البيع.",
-  keywords: ["عطور", "اكسسوارات", "مكياج", "عناية بالبشرة", "m donna store", "مصر"],
-  authors: [{ name: "M Donna Store" }],
+  description: "وجهتك الأولى لأحدث الهواتف الذكية، اسكرينات الحماية المعتمدة، الجرابات والشواحن الأصلية مع الدفع عند الاستلام وضمان حقيقي.",
+  keywords: ["موبايلات", "هواتف ذكية", "اسكرينات", "جرابات", "شواحن سريعة", "اكسسوارات موبايل", "phonehub store", "مصر"],
+  authors: [{ name: "PhoneHub Store" }],
   openGraph: {
     type: "website",
     locale: "ar_EG",
-    url: "https://home-appliance-ecosystem.vercel.app/",
-    title: "M Donna Store",
-    description: "تسوق أفضل العطور والاكسسوارات بضمان حقيقي ودفع عند الاستلام. جودة تثق بها.",
-    siteName: "M Donna Store",
+    url: "https://phonehub-store.vercel.app/",
+    title: "PhoneHub Store | فون هاب ستور",
+    description: "أفضل الهواتف الذكية ومستلزمات الحماية والإكسسوارات الأصلية مع خدمة التوصيل لجميع المحافظات والدفع عند الاستلام.",
+    siteName: "PhoneHub Store",
     images: [
       {
-        url: "/og-image.png", // This will be the file they choose
+        url: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=1200&q=80&auto=format&fit=crop",
         width: 1200,
         height: 630,
-        alt: "M Donna Store",
+        alt: "PhoneHub Store",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "M Donna Store",
-    description: "تسوق أفضل العطور والاكسسوارات بضمان حقيقي ودفع عند الاستلام",
-    images: ["/og-image.png"],
+    title: "PhoneHub Store",
+    description: "أحدث الموبايلات والإكسسوارات والاسكرينات الأصلية - دفع عند الاستلام",
+    images: ["https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=1200&q=80&auto=format&fit=crop"],
   },
   robots: {
     index: true,

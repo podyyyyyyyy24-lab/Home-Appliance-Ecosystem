@@ -6,12 +6,11 @@ import { revalidatePath } from "next/cache";
 // Seed the default categories if they don't exist
 export async function seedCategories() {
   const defaults = [
-    { nameEn: "Perfumes", nameAr: "برفانات", codePrefix: "PRF", active: true, sortOrder: 1 },
-    { nameEn: "Accessories", nameAr: "اكسسوار", codePrefix: "ACC", active: true, sortOrder: 2 },
-    { nameEn: "Makeup", nameAr: "ميكايب", codePrefix: "MKP", active: false, sortOrder: 3 },
-    { nameEn: "Skin Care", nameAr: "عناية بالبشرة", codePrefix: "SKN", active: false, sortOrder: 4 },
-    { nameEn: "Home Appliances", nameAr: "اجهزة منزلية", codePrefix: "HAP", active: false, sortOrder: 5 },
-    { nameEn: "Housewares", nameAr: "ادوات منزلية", codePrefix: "HWR", active: false, sortOrder: 6 },
+    { nameEn: "Smartphones", nameAr: "الهواتف الذكية", codePrefix: "MOB", active: true, sortOrder: 1 },
+    { nameEn: "Screen Protectors", nameAr: "اسكرينات وحماية", codePrefix: "SCR", active: true, sortOrder: 2 },
+    { nameEn: "Cases & Covers", nameAr: "جرابات وكڤرات", codePrefix: "CAS", active: true, sortOrder: 3 },
+    { nameEn: "Chargers & Cables", nameAr: "شواحن وكابلات", codePrefix: "CHG", active: true, sortOrder: 4 },
+    { nameEn: "Audio & Wearables", nameAr: "سماعات وساعات", codePrefix: "AUD", active: true, sortOrder: 5 },
   ];
 
   for (const cat of defaults) {

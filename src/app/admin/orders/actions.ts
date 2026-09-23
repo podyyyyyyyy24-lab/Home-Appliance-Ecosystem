@@ -3,28 +3,33 @@
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-export async function assignCourierAction(orderId: string, courierId: string) {
+export async function updateOrderStatusAction(orderId: string, status: string) {
   try {
-    const dataToUpdate: any = { courierId: courierId };
-
-    // If an actual courier is selected, move the order out for delivery
-    // If empty string is passed (unassigning), we revert back to PENDING.
-    if (courierId) {
-      dataToUpdate.status = "OUT_FOR_DELIVERY";
-    } else {
-      dataToUpdate.status = "PENDING";
-      dataToUpdate.courierId = null; 
-    }
-
     await prisma.order.update({
       where: { id: orderId },
-      data: dataToUpdate,
+      data: { status },
     });
     
     revalidatePath("/admin/orders");
+    revalidatePath("/admin");
     return { success: true };
   } catch (error) {
-    console.error("Failed to assign courier", error);
-    return { success: false };
+    console.error("Failed to update order status", error);
+    return { success: false, error: "فشل في تحديث حالة الشحنة" };
+  }
+}
+
+export async function deleteOrderAction(orderId: string) {
+  try {
+    await prisma.order.delete({
+      where: { id: orderId },
+    });
+    
+    revalidatePath("/admin/orders");
+    revalidatePath("/admin");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to delete order", error);
+    return { success: false, error: "فشل في حذف الطلب" };
   }
 }

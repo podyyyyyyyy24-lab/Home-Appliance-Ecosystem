@@ -1,18 +1,19 @@
 import prisma from "@/lib/prisma";
 import Link from "next/link";
-import { Star, ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowLeft, Smartphone, ShieldCheck, Zap, Sparkles } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const dynamic = 'force-dynamic';
 
-// Fallback images for categories when no cover image is set
+// Fallback images for tech categories when no cover image is set
 const fallbackImages: Record<string, string> = {
+  "Smartphones": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=75&auto=format&fit=crop",
+  "Screen Protectors": "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=800&q=75&auto=format&fit=crop",
+  "Cases & Covers": "https://images.unsplash.com/photo-1586105251261-72a756497a11?w=800&q=75&auto=format&fit=crop",
+  "Chargers & Cables": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800&q=75&auto=format&fit=crop",
+  "Audio & Wearables": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&q=75&auto=format&fit=crop",
   "Perfumes": "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=600&q=70&auto=format&fit=crop",
-  "Accessories": "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&q=70&auto=format&fit=crop",
-  "Makeup": "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=600&q=70&auto=format&fit=crop",
-  "Skin Care": "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=70&auto=format&fit=crop",
-  "Home Appliances": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=70&auto=format&fit=crop",
-  "Housewares": "https://images.unsplash.com/photo-1583845112239-97ef1341b271?w=600&q=70&auto=format&fit=crop",
+  "Accessories": "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&q=75&auto=format&fit=crop",
 };
 
 export default async function Storefront() {
@@ -25,14 +26,13 @@ export default async function Storefront() {
     });
   } catch (error) {
     console.error("Failed to fetch categories:", error);
-    // Use static fallback if DB is down
+    // Use tech categories fallback if DB is down
     categories = [
-      { id: "perfumes", nameAr: "برفانات", nameEn: "Perfumes", active: true, image: null, _count: { items: 0 } },
-      { id: "accessories", nameAr: "اكسسوار", nameEn: "Accessories", active: true, image: null, _count: { items: 0 } },
-      { id: "makeup", nameAr: "ميكايب", nameEn: "Makeup", active: false, image: null, _count: { items: 0 } },
-      { id: "skincare", nameAr: "عناية بالبشرة", nameEn: "Skin Care", active: false, image: null, _count: { items: 0 } },
-      { id: "home-appliances", nameAr: "اجهزة منزلية", nameEn: "Home Appliances", active: false, image: null, _count: { items: 0 } },
-      { id: "housewares", nameAr: "ادوات منزلية", nameEn: "Housewares", active: false, image: null, _count: { items: 0 } },
+      { id: "smartphones", nameAr: "الهواتف الذكية", nameEn: "Smartphones", codePrefix: "MOB", active: true, image: null, _count: { items: 0 } },
+      { id: "screen-protectors", nameAr: "اسكرينات وحماية", nameEn: "Screen Protectors", codePrefix: "SCR", active: true, image: null, _count: { items: 0 } },
+      { id: "cases", nameAr: "جرابات وكڤرات", nameEn: "Cases & Covers", codePrefix: "CAS", active: true, image: null, _count: { items: 0 } },
+      { id: "chargers", nameAr: "شواحن وكابلات", nameEn: "Chargers & Cables", codePrefix: "CHG", active: true, image: null, _count: { items: 0 } },
+      { id: "audio", nameAr: "سماعات وساعات", nameEn: "Audio & Wearables", codePrefix: "AUD", active: true, image: null, _count: { items: 0 } },
     ];
   }
 
@@ -41,19 +41,19 @@ export default async function Storefront() {
       {/* Full Page Background Image */}
       <div className="fixed inset-0 -z-20">
         <img 
-          src="https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?w=1400&q=70&auto=format&fit=crop" 
-          alt="" 
+          src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1600&q=80&auto=format&fit=crop" 
+          alt="Tech background" 
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/75 dark:bg-black/85" />
+        <div className="absolute inset-0 bg-slate-950/80 dark:bg-slate-950/90 backdrop-blur-[2px]" />
       </div>
       
       <header className="px-6 py-6 flex justify-between items-center max-w-7xl mx-auto w-full z-10">
         <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-2.5 hover:scale-105 transition-transform cursor-pointer drop-shadow-lg">
-          <div className="w-11 h-11 bg-primary rounded-2xl flex items-center justify-center shadow-lg shadow-primary/30">
-            <Sparkles className="text-white w-6 h-6" />
+          <div className="w-11 h-11 bg-gradient-to-tr from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+            <Smartphone className="text-white w-6 h-6" />
           </div>
-          M Donna Store<span className="text-primary -ml-2 text-4xl">.</span>
+          PhoneHub<span className="text-cyan-400 font-bold text-lg mr-1.5 px-2 py-0.5 rounded-lg bg-cyan-400/10 border border-cyan-400/20">Store</span>
         </h1>
         <div className="flex gap-4 items-center bg-white/10 backdrop-blur-md px-2 py-1.5 rounded-2xl shadow-sm border border-white/20">
           <ThemeToggle />
@@ -63,19 +63,19 @@ export default async function Storefront() {
       <main className="flex-1 max-w-7xl mx-auto w-full px-5 mt-4 z-10 pb-32" dir="rtl">
         
         {/* Hero Section - Glass Card */}
-        <section className="relative py-28 md:py-36 flex flex-col items-center text-center rounded-[32px] md:rounded-[48px] overflow-hidden mb-16 shadow-2xl mt-6 bg-white/5 backdrop-blur-md border border-white/10">
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-primary/5 pointer-events-none" />
+        <section className="relative py-28 md:py-36 flex flex-col items-center text-center rounded-[32px] md:rounded-[48px] overflow-hidden mb-16 shadow-2xl mt-6 bg-slate-900/40 backdrop-blur-xl border border-white/10">
+          <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/10 via-transparent to-blue-600/10 pointer-events-none" />
           
           <div className="relative z-10 w-full max-w-4xl flex flex-col items-center px-5">
-            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/15 backdrop-blur-md text-white font-bold text-sm mb-8 border border-white/25 shadow-lg">
-              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-              تألقي بأرقى العطور والإكسسوارات
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-cyan-500/15 backdrop-blur-md text-cyan-300 font-bold text-sm mb-8 border border-cyan-500/30 shadow-lg">
+              <ShieldCheck className="w-4 h-4 text-cyan-400" />
+              أقوى اسكرينات الحماية المعتمدة وأحدث الهواتف الذكية
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-white tracking-tight leading-[1.15] mb-8" style={{ textShadow: '0 4px 30px rgba(0,0,0,0.4)' }}>
-              مرحباً بكِ في <br className="hidden sm:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-l from-yellow-300 to-pink-400">M Donna Store</span>
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-white tracking-tight leading-[1.15] mb-8" style={{ textShadow: '0 4px 30px rgba(0,0,0,0.5)' }}>
+              مرحباً بك في <br className="hidden sm:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-l from-cyan-300 via-blue-400 to-indigo-300">PhoneHub Store</span>
             </h2>
-            <p className="text-lg md:text-xl text-white/80 max-w-2xl mb-12 leading-relaxed font-semibold">
-              اكتشفي تشكيلتنا الحصرية من العطور الفاخرة والإكسسوارات. تسوقي الآن وادفعي عند الاستلام!
+            <p className="text-lg md:text-xl text-gray-200/90 max-w-2xl mb-12 leading-relaxed font-semibold">
+              وجهتك المتكاملة لأحدث الموبايلات، اسكرينات الصدمات الأصلية، والجرابات والشواحن المعتمدة. اطلب الآن والدفع عند الاستلام بعد المعاينة!
             </p>
           </div>
         </section>
