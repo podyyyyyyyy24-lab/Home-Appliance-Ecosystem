@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ArrowRight, Wrench } from "lucide-react";
 
-export default function EditProductPlaceholder({ params }: { params: { id: string } }) {
+export default async function EditProductPlaceholder({ params }: { params: Promise<{ id: string }> }) {
+  await params;
   return (
     <div className="max-w-4xl mx-auto py-20 text-center">
       <div className="w-24 h-24 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center mx-auto mb-6">

@@ -21,6 +21,7 @@ export default async function Storefront() {
 
   try {
     categories = await prisma.category.findMany({
+      where: { active: true },
       include: { _count: { select: { items: true } } },
       orderBy: { sortOrder: "asc" },
     });
@@ -93,61 +94,46 @@ export default async function Storefront() {
           {categories.map((category) => {
             const coverImage = category.image || fallbackImages[category.nameEn] || "";
             const itemCount = category._count?.items || 0;
-            
-            const CardContent = (
-              <>
+
+            return (
+              <Link
+                key={category.id}
+                href={`/category/${category.id}`}
+                className="relative group rounded-[28px] overflow-hidden border border-primary/20 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20 cursor-pointer hover:-translate-y-1 transition-all duration-300 bg-slate-900/60 aspect-[4/3] flex flex-col"
+              >
                 <div className="absolute inset-0 z-0">
-                  <img src={coverImage} alt={category.nameEn} className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                  <img
+                    src={coverImage}
+                    alt={category.nameEn}
+                    className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
                 </div>
-                
+
                 <div className="relative z-10 flex flex-col justify-end h-full p-6 text-white">
                   <div className="flex justify-between items-end">
                     <div>
                       <h3 className="text-3xl font-black mb-1 tracking-tight">{category.nameEn}</h3>
                       <p className="text-xl font-bold text-gray-300">{category.nameAr}</p>
                       {itemCount > 0 && (
-                        <p className="text-sm text-gray-400 mt-1">{itemCount} منتج</p>
+                        <p className="text-sm text-cyan-300 font-semibold mt-1">{itemCount} منتج متوفر</p>
                       )}
                     </div>
-                    {!category.active && (
-                      <div className="bg-black/50 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20">
-                        <span className="font-bold text-sm text-white flex items-center gap-2">
-                          قريباً <span className="text-xs uppercase opacity-80">Coming Soon</span>
-                        </span>
-                      </div>
-                    )}
-                    {category.active && (
-                      <div className="w-10 h-10 rounded-full bg-primary/90 flex items-center justify-center backdrop-blur-md group-hover:bg-primary transition-colors">
-                        <ArrowLeft className="w-5 h-5 text-white" />
-                      </div>
-                    )}
+                    <div className="w-11 h-11 rounded-2xl bg-cyan-500/90 flex items-center justify-center backdrop-blur-md group-hover:bg-cyan-400 group-hover:scale-110 transition-all shadow-lg">
+                      <ArrowLeft className="w-5 h-5 text-black font-bold" />
+                    </div>
                   </div>
                 </div>
-              </>
-            );
-
-            if (category.active) {
-              return (
-                <Link
-                  key={category.id}
-                  href={`/category/${category.id}`}
-                  className="relative group rounded-[28px] overflow-hidden border border-primary/20 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20 cursor-pointer hover:-translate-y-1 transition-all duration-300 bg-white dark:bg-card aspect-[4/3] flex flex-col"
-                >
-                  {CardContent}
-                </Link>
-              );
-            }
-
-            return (
-              <div
-                key={category.id}
-                className="relative group rounded-[28px] overflow-hidden border border-border/50 opacity-80 transition-all duration-300 bg-white dark:bg-card aspect-[4/3] flex flex-col"
-              >
-                {CardContent}
-              </div>
+              </Link>
             );
           })}
+
+          {categories.length === 0 && (
+            <div className="col-span-full text-center py-20 bg-slate-900/40 backdrop-blur-md rounded-3xl border border-white/10 text-white">
+              <p className="text-xl font-bold mb-2">جاري تجهيز الأقسام والمنتجات الجديدة...</p>
+              <p className="text-gray-400 text-sm">يمكن لمدير المتجر تفعيل الأقسام من لوحة التحكم لتظهر هنا فوراً.</p>
+            </div>
+          )}
         </div>
 
       </main>

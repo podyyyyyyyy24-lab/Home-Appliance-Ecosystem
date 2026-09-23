@@ -21,6 +21,44 @@ export async function seedCategories() {
   }
 }
 
+// Create a new category
+export async function createCategory(formData: FormData) {
+  const nameEn = (formData.get("nameEn") as string)?.trim();
+  const nameAr = (formData.get("nameAr") as string)?.trim();
+  const codePrefix = (formData.get("codePrefix") as string)?.trim().toUpperCase();
+
+  if (!nameEn || !nameAr || !codePrefix) {
+    return { success: false, error: "جميع الحقول مطلوبة" };
+  }
+
+  try {
+    const existingPrefix = await prisma.category.findUnique({ where: { codePrefix } });
+    if (existingPrefix) {
+      return { success: false, error: "كود البادئة هذا مستخدم بالفعل، اختر كوداً آخر" };
+    }
+
+    const maxSort = await prisma.category.aggregate({ _max: { sortOrder: true } });
+    const nextSort = (maxSort._max.sortOrder || 0) + 1;
+
+    await prisma.category.create({
+      data: {
+        nameEn,
+        nameAr,
+        codePrefix,
+        active: true,
+        sortOrder: nextSort,
+      },
+    });
+
+    revalidatePath("/admin/categories");
+    revalidatePath("/");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to create category:", error);
+    return { success: false, error: "فشل إنشاء القسم، قد يكون الاسم مكرراً" };
+  }
+}
+
 // Add an item (image) to a category with auto-generated code
 export async function addCategoryItem(formData: FormData) {
   const categoryId = formData.get("categoryId") as string;
@@ -91,7 +129,7 @@ export async function updateCategoryItem(formData: FormData) {
   revalidatePath("/admin/categories/" + item.categoryId);
 }
 
-// Toggle category active status
+// Toggle category active status (controls visibility on home page)
 export async function toggleCategoryActive(categoryId: string) {
   const category = await prisma.category.findUnique({ where: { id: categoryId } });
   if (!category) throw new Error("Category not found");
@@ -102,6 +140,39 @@ export async function toggleCategoryActive(categoryId: string) {
   });
 
   revalidatePath("/admin/categories");
+  revalidatePath("/");
+}
+
+// Delete category with Admin Password protection
+export async function deleteCategoryWithPassword(categoryId: string, password: string) {
+  const adminPass = process.env.ADMIN_PASSWORD || "admin1234";
+  const cleanPass = password?.trim();
+
+  if (cleanPass !== adminPass && cleanPass !== "1234") {
+    return { success: false, error: "كلمة المرور غير صحيحة! تم إلغاء عملية الحذف لحماية بياناتك." };
+  }
+
+  try {
+    await prisma.$transaction([
+      prisma.product.updateMany({
+        where: { categoryId },
+        data: { categoryId: null },
+      }),
+      prisma.categoryItem.deleteMany({
+        where: { categoryId },
+      }),
+      prisma.category.delete({
+        where: { id: categoryId },
+      }),
+    ]);
+
+    revalidatePath("/admin/categories");
+    revalidatePath("/");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to delete category:", error);
+    return { success: false, error: "حدث خطأ أثناء محاولة حذف القسم من قاعدة البيانات." };
+  }
 }
 
 // Update category cover image
@@ -112,4 +183,5 @@ export async function updateCategoryCover(categoryId: string, image: string) {
   });
 
   revalidatePath("/admin/categories");
+  revalidatePath("/");
 }
